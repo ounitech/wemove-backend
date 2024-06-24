@@ -8,11 +8,11 @@
 		<version>3.2.7</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.example</groupId>
-	<artifactId>simple-spring-project</artifactId>
+	<groupId>com.ounitech</groupId>
+	<artifactId>wemove</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Simple spring project</name>
-	<description>Simple spring project with CRUD operations</description>
+	<name>wemove backoffice</name>
+	<description>gym management backoffice</description>
 	<url/>
 	<licenses>
 		<license/>

@@ -1,4 +1,4 @@
-package com.example.simple.spring.project.user;
+package com.ounitech.wemove.user;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

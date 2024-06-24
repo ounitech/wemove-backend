@@ -1,4 +1,4 @@
-package com.example.simple.spring.project;
+package com.ounitech.wemove;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
