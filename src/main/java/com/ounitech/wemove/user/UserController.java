@@ -1,7 +1,6 @@
 package com.ounitech.wemove.user;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,26 +10,29 @@ import java.util.Optional;
 @RequestMapping("/api/users")
 public class UserController {
 
-    @Autowired
-    private UserRepository repository;
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping
     public User save(
             @RequestBody User user
     ) {
-        return repository.save(user);
+        return userService.save(user);
     }
 
     @GetMapping("/{id}")
     public Optional<User> findById(
             @PathVariable("id") Integer id
     ) {
-        return repository.findById(id);
+        return userService.findById(id);
     }
 
     @GetMapping
     public List<User> findAllUsers() {
-        return repository.findAll();
+        return userService.findAll();
     }
 
     @PutMapping("/{id}")
@@ -38,7 +40,7 @@ public class UserController {
             @PathVariable("id") Integer id,
             @RequestBody User user
     ) {
-        Optional<User> userById = repository.findById(id);
+        Optional<User> userById = userService.findById(id);
         System.out.println(userById);
 
         if (userById.isPresent()) {
@@ -48,7 +50,7 @@ public class UserController {
             _user.setEmail(user.getEmail());
             _user.setJob(user.getJob());
 
-            return repository.save(_user);
+            return userService.save(_user);
         } else
             return null;
     }
@@ -57,7 +59,7 @@ public class UserController {
     public void delete(
             @PathVariable("id") Integer id
     ) {
-        repository.deleteById(id);
+        userService.deleteById(id);
     }
 
 }
