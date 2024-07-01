@@ -34,7 +34,7 @@ class UserRepositoryTest {
     }
 
     @Test
-    void findById() {
+    void findById() throws Exception {
         // When
         Optional<User> user = userRepository.findById(4);
 
