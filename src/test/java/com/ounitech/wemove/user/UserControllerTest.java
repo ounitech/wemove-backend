@@ -41,7 +41,29 @@ class UserControllerTest {
         assertThat(response.getContentAsString().contains("webb")).isTrue();
     }
 
+    @Test
     void findById_not_found() throws Exception {
-        // TODO : handle not found id case
+        // When
+        Mockito.when(userService.findById(7)).thenReturn(Optional.empty());
+        MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.get("/api/users/7")).andReturn().getResponse();
+
+        // Then
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.NOT_FOUND.value());
+    }
+
+    @Test
+    void deleteUser() throws Exception {
+        // Given
+        User user = new User();
+        user.setFirstname("phil");
+        user.setLastname("webb");
+
+        Mockito.when(userService.findById(7)).thenReturn(Optional.of(user));
+
+        //When
+        MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.delete("/api/users/7")).andReturn().getResponse();
+
+        // Then
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
     }
 }
