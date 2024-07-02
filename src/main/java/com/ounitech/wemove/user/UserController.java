@@ -1,7 +1,6 @@
 package com.ounitech.wemove.user;
 
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -55,21 +54,17 @@ public class UserController {
             @PathVariable("id") Integer id,
             @RequestBody User user
     ) {
-        Optional<User> userById = userService.findById(id);
+        Optional<User> _user = userService.findById(id);
 
-        if (userById.isPresent()) {
+        if (_user.isPresent()) {
             if (user.getEmail() == null || user.getJob() == null || user.getFirstname() == null || user.getLastname() == null)
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             if (user.getEmail().isEmpty() || user.getJob().isEmpty() || user.getFirstname().isEmpty() || user.getLastname().isEmpty())
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-            User _user = userById.get();
-            _user.setFirstname(user.getFirstname());
-            _user.setLastname(user.getLastname());
-            _user.setEmail(user.getEmail());
-            _user.setJob(user.getJob());
 
-            return new ResponseEntity<>(userService.save(_user), HttpStatus.OK);
+            User updatedUser = userService.updateUser(id, user);
+            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
         } else
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

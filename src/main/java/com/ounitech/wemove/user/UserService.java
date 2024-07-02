@@ -22,6 +22,18 @@ public class UserService {
         return userRepository.findById(id);
     }
 
+    public User updateUser(Integer id, User user) {
+        Optional<User> userById = userRepository.findById(id);
+
+        User _user = userById.get();
+        _user.setFirstname(user.getFirstname());
+        _user.setLastname(user.getLastname());
+        _user.setEmail(user.getEmail());
+        _user.setJob(user.getJob());
+
+        return userRepository.save(_user);
+    }
+
     public List<User> findAll() {
         return userRepository.findAll();
     }
