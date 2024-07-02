@@ -86,7 +86,7 @@ class UserControllerTest {
         userService.save(user2);
 
         Mockito.when(userService.findById(4)).thenReturn(Optional.of(user2));
-        Mockito.when(userService.updateUser(4, user)).thenReturn(user);
+        Mockito.when(userService.updateUser(Mockito.any(Integer.class), Mockito.any(User.class))).thenReturn(user);
 
         MockHttpServletResponse response = mockMvc.perform(
                 MockMvcRequestBuilders.put("/api/users/4").contentType(MediaType.APPLICATION_JSON).content(asJsonString(user))).andReturn().getResponse();
