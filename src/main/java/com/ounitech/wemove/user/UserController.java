@@ -62,7 +62,6 @@ public class UserController {
             if (user.getEmail().isEmpty() || user.getJob().isEmpty() || user.getFirstname().isEmpty() || user.getLastname().isEmpty())
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-
             User updatedUser = userService.updateUser(id, user);
             return new ResponseEntity<>(updatedUser, HttpStatus.OK);
         } else
