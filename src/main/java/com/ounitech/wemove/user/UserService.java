@@ -25,13 +25,13 @@ public class UserService {
     public User updateUser(Integer id, User user) {
         Optional<User> userById = userRepository.findById(id);
 
-        User _user = userById.get();
-        _user.setFirstname(user.getFirstname());
-        _user.setLastname(user.getLastname());
-        _user.setEmail(user.getEmail());
-        _user.setJob(user.getJob());
+        User user1 = userById.get();
+        user1.setFirstname(user.getFirstname());
+        user1.setLastname(user.getLastname());
+        user1.setEmail(user.getEmail());
+        user1.setJob(user.getJob());
 
-        return userRepository.save(_user);
+        return userRepository.save(user1);
     }
 
     public List<User> findAll() {
