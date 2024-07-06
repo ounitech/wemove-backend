@@ -1,4 +1,4 @@
-package com.ounitech.wemove.user;
+package com.ounitech.wemove.member;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -16,26 +16,26 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@WebMvcTest(UserController.class)
-class UserControllerTest {
+@WebMvcTest(MemberController.class)
+class MemberControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private UserService userService;
+    private MemberService memberService;
 
     @Test
     void findById_nominal_case() throws Exception {
         // Given
-        User user = new User();
-        user.setFirstname("phil");
-        user.setLastname("webb");
+        Member member = new Member();
+        member.setFirstname("phil");
+        member.setLastname("webb");
 
-        Mockito.when(userService.findById(7)).thenReturn(Optional.of(user));
+        Mockito.when(memberService.findById(7)).thenReturn(Optional.of(member));
 
         // When
-        MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.get("/api/users/7")).andReturn().getResponse();
+        MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.get("/api/members/7")).andReturn().getResponse();
 
         // Then
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
@@ -46,24 +46,24 @@ class UserControllerTest {
     @Test
     void findById_not_found() throws Exception {
         // When
-        Mockito.when(userService.findById(7)).thenReturn(Optional.empty());
-        MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.get("/api/users/7")).andReturn().getResponse();
+        Mockito.when(memberService.findById(7)).thenReturn(Optional.empty());
+        MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.get("/api/members/7")).andReturn().getResponse();
 
         // Then
         assertThat(response.getStatus()).isEqualTo(HttpStatus.NOT_FOUND.value());
     }
 
     @Test
-    void deleteUser() throws Exception {
+    void deleteMember() throws Exception {
         // Given
-        User user = new User();
-        user.setFirstname("phil");
-        user.setLastname("webb");
+        Member member = new Member();
+        member.setFirstname("phil");
+        member.setLastname("webb");
 
-        Mockito.when(userService.findById(7)).thenReturn(Optional.of(user));
+        Mockito.when(memberService.findById(7)).thenReturn(Optional.of(member));
 
         //When
-        MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.delete("/api/users/7")).andReturn().getResponse();
+        MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.delete("/api/members/7")).andReturn().getResponse();
 
         // Then
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
@@ -71,25 +71,23 @@ class UserControllerTest {
 
     @Test
     void updateUser() throws Exception {
-        User user = new User();
-        user.setFirstname("phil");
-        user.setLastname("webb");
-        user.setEmail("webb@gmail.com");
-        user.setJob("job");
+        Member member = new Member();
+        member.setFirstname("phil");
+        member.setLastname("webb");
+        member.setEmail("webb@gmail.com");
 
-        User user2 = new User();
-        user2.setFirstname("aaaa");
-        user2.setLastname("aaaaa");
-        user2.setEmail("aaaaa");
-        user2.setJob("aaa");
+        Member member1 = new Member();
+        member1.setFirstname("aaaa");
+        member1.setLastname("aaaaa");
+        member1.setEmail("aaaaa");
 
-        userService.save(user2);
+        memberService.save(member1);
 
-        Mockito.when(userService.findById(4)).thenReturn(Optional.of(user2));
-        Mockito.when(userService.updateUser(Mockito.any(Integer.class), Mockito.any(User.class))).thenReturn(user);
+        Mockito.when(memberService.findById(4)).thenReturn(Optional.of(member1));
+        Mockito.when(memberService.updateMember(Mockito.any(Integer.class), Mockito.any(Member.class))).thenReturn(member);
 
         MockHttpServletResponse response = mockMvc.perform(
-                MockMvcRequestBuilders.put("/api/users/4").contentType(MediaType.APPLICATION_JSON).content(asJsonString(user))).andReturn().getResponse();
+                MockMvcRequestBuilders.put("/api/members/4").contentType(MediaType.APPLICATION_JSON).content(asJsonString(member))).andReturn().getResponse();
 
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
         assertThat(response.getContentAsString().contains("phil")).isTrue();

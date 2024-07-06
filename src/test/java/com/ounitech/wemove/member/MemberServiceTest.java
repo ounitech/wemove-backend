@@ -1,4 +1,4 @@
-package com.ounitech.wemove.user;
+package com.ounitech.wemove.member;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,13 +12,13 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class UserServiceTest {
+class MemberServiceTest {
 
     @Mock
-    private UserRepository userRepository;
+    private MemberRepository memberRepository;
 
     @InjectMocks
-    private UserService userService;
+    private MemberService memberService;
 
     @BeforeEach
     void setUp() {
@@ -28,14 +28,14 @@ class UserServiceTest {
     @Test
     void findById_nominal_case() {
         // Given
-        User user = new User();
-        user.setFirstname("jorgen");
-        user.setLastname("hoeller");
+        Member member = new Member();
+        member.setFirstname("jorgen");
+        member.setLastname("hoeller");
 
         // When
-        Mockito.when(userRepository.findById(11))
-                .thenReturn(Optional.of(user));
-        Optional<User> result = userService.findById(11);
+        Mockito.when(memberRepository.findById(11))
+                .thenReturn(Optional.of(member));
+        Optional<Member> result = memberService.findById(11);
 
         // Then
         assertThat(result.isPresent()).isTrue();
@@ -46,11 +46,11 @@ class UserServiceTest {
     @Test
     void findById_notFound() {
         //Given
-        Mockito.when(userRepository.findById(11))
+        Mockito.when(memberRepository.findById(11))
                 .thenReturn(Optional.empty());
 
         // When
-        Optional<User> result = userService.findById(11);
+        Optional<Member> result = memberService.findById(11);
 
         // Then
         assertThat(result.isPresent()).isFalse();
@@ -59,17 +59,17 @@ class UserServiceTest {
     @Test
     void findAllUsers() {
         // Given
-        User user = new User();
-        user.setFirstname("jorgen");
-        user.setLastname("hoeller");
+        Member member = new Member();
+        member.setFirstname("jorgen");
+        member.setLastname("hoeller");
 
-        User user2 = new User();
-        user.setFirstname("cristiano");
-        user.setLastname("ronaldo");
+        Member member2 = new Member();
+        member2.setFirstname("cristiano");
+        member2.setLastname("ronaldo");
 
         //When
-        Mockito.when(userRepository.findAll()).thenReturn(List.of(user, user2));
-        List<User> result = userService.findAll();
+        Mockito.when(memberRepository.findAll()).thenReturn(List.of(member, member2));
+        List<Member> result = memberService.findAll();
 
         //Then
         assertThat(result).isNotNull();
