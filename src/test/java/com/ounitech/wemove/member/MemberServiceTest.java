@@ -1,5 +1,8 @@
 package com.ounitech.wemove.member;
 
+import com.ounitech.wemove.models.Member;
+import com.ounitech.wemove.repositories.MemberRepository;
+import com.ounitech.wemove.services.MemberService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

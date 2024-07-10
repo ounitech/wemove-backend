@@ -1,5 +1,7 @@
-package com.ounitech.wemove.member;
+package com.ounitech.wemove.services;
 
+import com.ounitech.wemove.models.Member;
+import com.ounitech.wemove.repositories.MemberRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

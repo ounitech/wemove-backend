@@ -1,6 +1,8 @@
-package com.ounitech.wemove.member;
+package com.ounitech.wemove.controllers;
 
 
+import com.ounitech.wemove.services.MemberService;
+import com.ounitech.wemove.models.Member;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

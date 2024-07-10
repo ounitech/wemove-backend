@@ -1,6 +1,9 @@
 package com.ounitech.wemove.member;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ounitech.wemove.controllers.MemberController;
+import com.ounitech.wemove.models.Member;
+import com.ounitech.wemove.services.MemberService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;

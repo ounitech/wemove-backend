@@ -1,4 +1,4 @@
-package com.ounitech.wemove.member;
+package com.ounitech.wemove.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -7,15 +7,14 @@ import lombok.Data;
 @Entity
 @Table(name = "member")
 public class Member {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Integer id;
-    @Column(name = "firstname")
+    @Column(name = "firstname", nullable = false)
     private String firstname;
-    @Column(name = "lastname")
+    @Column(name = "lastname", nullable = false)
     private String lastname;
-    @Column(name = "email")
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
     @Column(name = "gender")
     private String gender;
@@ -27,9 +26,9 @@ public class Member {
     private String phone;
 
     @Column(name = "picture")
-    private byte[] picture;
+    private String picture;
 
-    @Column(name = "active")
-    private Integer active;
+    @Column(name = "active", nullable = false)
+    private Byte active;
 
 }
