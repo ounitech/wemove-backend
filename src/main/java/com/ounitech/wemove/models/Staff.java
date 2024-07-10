@@ -31,7 +31,10 @@ public class Staff {
     @Column(name = "picture", nullable = false)
     private String picture;
 
-    private Integer roleId;
     @Column(name = "active", nullable = false)
     private Byte active;
+
+    @ManyToOne
+    @JoinColumn(name = "roleid", referencedColumnName = "id", nullable = false)
+    private Role role;
 }

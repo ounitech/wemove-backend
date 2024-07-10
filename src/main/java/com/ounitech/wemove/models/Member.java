@@ -3,6 +3,8 @@ package com.ounitech.wemove.models;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Set;
+
 @Data
 @Entity
 @Table(name = "member")
@@ -30,5 +32,12 @@ public class Member {
 
     @Column(name = "active", nullable = false)
     private Byte active;
+
+    @OneToOne
+    @JoinColumn(name = "memberSubid",referencedColumnName = "id")
+    private MemberSubscription memberSubscription;
+
+    @OneToMany(mappedBy = "member")
+    private Set<Entry> entries;
 
 }

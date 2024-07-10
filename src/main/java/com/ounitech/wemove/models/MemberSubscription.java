@@ -15,13 +15,18 @@ public class MemberSubscription {
     @GeneratedValue
     private Integer id;
 
-    private Integer memberId;
 
-    private Integer subscriptionId;
 
     @Column(name = "startdate", nullable = false)
     private LocalDate startDate;
 
     @Column(name = "paid", nullable = false)
-    private String paid;
+    private int paid;
+    @ManyToOne
+    @JoinColumn(name = "subscriptionid", referencedColumnName = "id", nullable = false)
+    private Subscription subscription;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "memberid", referencedColumnName = "id", nullable = false)
+    private Member member;
 }

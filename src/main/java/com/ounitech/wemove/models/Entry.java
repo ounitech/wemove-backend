@@ -14,13 +14,14 @@ public class Entry {
     @Id
     @GeneratedValue
     private Integer id;
-    private Integer memberId;
 
-    @Column(name = "entryTime", nullable = false)
+    @Column(name = "entrytime", nullable = false)
     private LocalDateTime entryTime;
 
-    @Column(name = "leaveTime", nullable = false)
+    @Column(name = "leavetime", nullable = false)
     private LocalDateTime leaveTime;
 
-
+    @ManyToOne
+    @JoinColumn(name = "memberid", referencedColumnName = "id", nullable = false)
+    private Member member;
 }
