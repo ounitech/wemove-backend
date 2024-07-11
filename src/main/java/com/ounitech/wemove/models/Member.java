@@ -30,12 +30,12 @@ public class Member {
     @Column(name = "picture")
     private String picture;
 
-    @Column(name = "active", nullable = false)
+    @Column(name = "active", nullable = false, columnDefinition = "BYTE DEFAULT 0")
     private Byte active;
 
-    @OneToOne
-    @JoinColumn(name = "memberSubid",referencedColumnName = "id")
-    private MemberSubscription memberSubscription;
+//    @OneToOne
+//    @JoinColumn(name = "memberSubid", referencedColumnName = "id")
+//    private MemberSubscription memberSubscription;
 
     @OneToMany(mappedBy = "member")
     private Set<Entry> entries;
