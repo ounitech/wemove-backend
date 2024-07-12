@@ -20,6 +20,15 @@ public class Subscription {
     @Column(name = "price", nullable = false)
     private int subscriptionPrice;
 
+    public enum Duration {
+        DAILY,
+        MONTHLY,
+        YEAR
+    }
+
+    @Column(name = "duration", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Duration duration;
     @Column(name = "active", nullable = false)
     private Byte active;
 
