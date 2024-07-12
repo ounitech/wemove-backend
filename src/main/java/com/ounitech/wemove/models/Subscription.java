@@ -21,9 +21,9 @@ public class Subscription {
     private int subscriptionPrice;
 
     public enum Duration {
-        DAILY,
-        MONTHLY,
-        YEAR
+        daily,
+        monthly,
+        year
     }
 
     @Column(name = "duration", nullable = false)
