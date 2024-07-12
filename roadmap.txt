@@ -1,9 +1,9 @@
 Subscription
 
 - create a subscription
-- list subscription
+- list subscription //DONE
 
-using a script 
+using a script  //DONE
 - create 3 subscriptions
   - GOLD   : year 300 euros
   - SILVER : monthly 30 euros
@@ -11,11 +11,11 @@ using a script
 
 Member
 
-- create a new member
-- activate / deactivate a member
+- create a new member  //DONE
+- activate / deactivate a member //DONE
 - subscribe a member
-- list members
-- find a member by several criteria (lastname, firstname, active ...)
+- list members //DONE
+- find a member by several criteria (lastname, firstname, active ...) //DONE
 
 Using a script :
 - create about 500 members using https://randomuser.me/ WS : Use any tech stack you want
