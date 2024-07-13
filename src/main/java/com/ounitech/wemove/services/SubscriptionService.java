@@ -29,5 +29,9 @@ public class SubscriptionService {
         return subscriptionRepository.findAll();
     }
 
+    public Subscription findByName(String subscriptionName) {
+        return subscriptionRepository.findBysubscriptionName(subscriptionName);
+    }
+
 
 }

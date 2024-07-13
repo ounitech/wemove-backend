@@ -15,8 +15,6 @@ public class MemberSubscription {
     @GeneratedValue
     private Integer id;
 
-
-
     @Column(name = "startdate", nullable = false)
     private LocalDate startDate;
 
