@@ -33,8 +33,7 @@ Entry
 Using a script :
   - create 2 years of entries for the users
 
-Staff
-
+Staff //DONE
 - add a staff
 - list staff
 - remove staff

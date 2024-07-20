@@ -3,9 +3,7 @@ package com.ounitech.wemove.controllers;
 
 import com.ounitech.wemove.models.Member;
 import com.ounitech.wemove.models.MemberSubscription;
-import com.ounitech.wemove.models.Subscription;
 import com.ounitech.wemove.repositories.MemberRepository;
-import com.ounitech.wemove.repositories.SubscriptionRepository;
 import com.ounitech.wemove.services.MemberService;
 import com.ounitech.wemove.services.MemberSubscriptionService;
 import com.ounitech.wemove.services.SubscriptionService;
