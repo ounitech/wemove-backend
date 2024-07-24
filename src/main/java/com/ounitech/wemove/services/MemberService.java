@@ -2,6 +2,8 @@ package com.ounitech.wemove.services;
 
 import com.ounitech.wemove.models.Member;
 import com.ounitech.wemove.repositories.MemberRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -74,6 +76,11 @@ public class MemberService {
 
     public Member findByEmail(String email) {
         return memberRepository.findByemail(email);
+    }
+
+    public Page<Member> findMembersWithPagination(int offset) {
+        Page<Member> members = memberRepository.findAll(PageRequest.of(offset, 10));
+        return members;
     }
 
 

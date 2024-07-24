@@ -4,9 +4,11 @@ package com.ounitech.wemove.controllers;
 import com.ounitech.wemove.services.MemberService;
 import com.ounitech.wemove.models.Member;
 import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
 
@@ -144,4 +146,10 @@ public class MemberController {
 
     }
 
+    @GetMapping("/page/{offset}")
+    public ResponseEntity<Page<Member>> findMembersWithPagination(
+            @PathVariable int offset
+    ) {
+        return new ResponseEntity<>(memberService.findMembersWithPagination(offset), HttpStatus.OK);
+    }
 }
