@@ -79,10 +79,15 @@ public class MemberController {
             @RequestBody Member member
     ) {
         //ensure that the email entered is unique
-        if (memberService.findByEmail(member.getEmail()) != null)
+        if (memberService.findByEmail(member.getEmail()) != null) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+
+        if (member.getEmail() == null || member.getFirstname() == null || member.getLastname() == null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         if (member.getEmail().isEmpty() || member.getFirstname().isEmpty() || member.getLastname().isEmpty())
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
         return new ResponseEntity<>(memberService.save(member), HttpStatus.CREATED);
     }
 

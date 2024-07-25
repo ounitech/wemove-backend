@@ -77,8 +77,12 @@ public class StaffController {
         //ensure that the email entered is unique
         if (staffService.findByEmail(staff.getEmail()) != null)
             return new ResponseEntity<>(HttpStatus.CONFLICT);
-        if (staff.getEmail().isEmpty() || staff.getFirstname().isEmpty() || staff.getLastname().isEmpty())
+
+        if (staff.getEmail() == null || staff.getFirstname() == null || staff.getLastname() == null || staff.getAddress() == null || staff.getPhone() == null || staff.getPicture() == null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (staff.getEmail().isEmpty() || staff.getFirstname().isEmpty() || staff.getLastname().isEmpty() || staff.getAddress().isEmpty() || staff.getPhone().isEmpty() || staff.getPicture().isEmpty())
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
         return new ResponseEntity<>(staffService.save(staff), HttpStatus.CREATED);
     }
 
@@ -90,9 +94,9 @@ public class StaffController {
         Optional<Staff> staff1 = staffService.findById(id);
 
         if (staff1.isPresent()) {
-            if (staff.getEmail() == null || staff.getFirstname() == null || staff.getLastname() == null)
+            if (staff.getEmail() == null || staff.getFirstname() == null || staff.getLastname() == null || staff.getAddress() == null || staff.getPhone() == null || staff.getPicture() == null)
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            if (staff.getEmail().isEmpty() || staff.getFirstname().isEmpty() || staff.getLastname().isEmpty())
+            if (staff.getEmail().isEmpty() || staff.getFirstname().isEmpty() || staff.getLastname().isEmpty() || staff.getAddress().isEmpty() || staff.getPhone().isEmpty() || staff.getPicture().isEmpty())
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
             Staff updatedStaff = staffService.updateStaff(id, staff);
