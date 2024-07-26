@@ -46,9 +46,7 @@ public class MemberSubscriptionService {
         return memberSubscriptionRepository.save(memberSubscription);
     }
 
-    public void deleteById(Integer id) {
-
-
+    public void deleteMemberSubscription(Integer id) {
         memberSubscriptionRepository.deleteById(id);
     }
 

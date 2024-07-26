@@ -27,7 +27,7 @@ public class MemberSubscriptionController {
         this.memberService = memberService;
     }
 
-    @GetMapping("/{id")
+    @GetMapping("/{id}")
     public ResponseEntity<MemberSubscription> findMemberSubscription(
             @PathVariable Integer id
     ) {
@@ -64,5 +64,26 @@ public class MemberSubscriptionController {
             }
             return new ResponseEntity<>(memberSubscriptionService.subscribe(id, subscriptionName), HttpStatus.OK);
         } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteMemberSubscription(
+            @PathVariable("id") Integer id
+    ) {
+        Optional<Member> optionalMember = memberService.findById(id);
+
+
+        if (optionalMember.isPresent()) {
+            Member member = optionalMember.get();
+
+            Optional<MemberSubscription> optionalMemberSubscription = memberSubscriptionService.findMemberSubscription(member);
+
+            if (optionalMemberSubscription.isPresent()) {
+                memberSubscriptionService.deleteMemberSubscription(optionalMemberSubscription.get().getId());
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+        }
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

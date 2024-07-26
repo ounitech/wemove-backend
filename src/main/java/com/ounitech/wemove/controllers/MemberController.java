@@ -1,8 +1,10 @@
 package com.ounitech.wemove.controllers;
 
 
+import com.ounitech.wemove.models.MemberSubscription;
 import com.ounitech.wemove.services.MemberService;
 import com.ounitech.wemove.models.Member;
+import com.ounitech.wemove.services.MemberSubscriptionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +19,11 @@ import java.util.Optional;
 public class MemberController {
 
     private final MemberService memberService;
+    private final MemberSubscriptionService memberSubscriptionService;
 
-    public MemberController(MemberService memberService) {
+    public MemberController(MemberService memberService, MemberSubscriptionService memberSubscriptionService) {
         this.memberService = memberService;
+        this.memberSubscriptionService = memberSubscriptionService;
     }
 
     @GetMapping("/findById/{id}")
@@ -141,10 +145,19 @@ public class MemberController {
     public ResponseEntity<?> delete(
             @PathVariable("id") Integer id
     ) {
-        Optional<Member> member = memberService.findById(id);
+        Optional<Member> optionalMember = memberService.findById(id);
 
-        if (member.isPresent()) {
+        if (optionalMember.isPresent()) {
+            Member member = optionalMember.get();
+
+            Optional<MemberSubscription> optionalMemberSubscription = memberSubscriptionService.findMemberSubscription(member);
+
+            if (optionalMemberSubscription.isPresent()) {
+                memberSubscriptionService.deleteMemberSubscription(optionalMemberSubscription.get().getId());
+            }
+
             memberService.deleteById(id);
+
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
