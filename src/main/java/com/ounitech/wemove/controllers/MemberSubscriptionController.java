@@ -27,6 +27,28 @@ public class MemberSubscriptionController {
         this.memberService = memberService;
     }
 
+    @GetMapping("/{id")
+    public ResponseEntity<MemberSubscription> findMemberSubscription(
+            @PathVariable Integer id
+    ) {
+        Optional<Member> optionalMember = memberService.findById(id);
+
+        if (optionalMember.isPresent()) {
+            Member member = optionalMember.get();
+
+            Optional<MemberSubscription> optionalMemberSubscription = memberSubscriptionService.findMemberSubscription(member);
+
+            if (optionalMemberSubscription.isPresent()) {
+                MemberSubscription memberSubscription = optionalMemberSubscription.get();
+
+                return new ResponseEntity<>(memberSubscription, HttpStatus.OK);
+            } else
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
     @PostMapping("/subscribe")
     public ResponseEntity<MemberSubscription> subscribe(@RequestParam Integer id, @RequestParam String subscriptionName) {
 
@@ -37,7 +59,7 @@ public class MemberSubscriptionController {
 
 
         if (memberById.isPresent()) {
-            if (memberSubscriptionService.findMember(memberById.get()).isPresent()) {
+            if (memberSubscriptionService.findMemberSubscription(memberById.get()).isPresent()) {
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             }
             return new ResponseEntity<>(memberSubscriptionService.subscribe(id, subscriptionName), HttpStatus.OK);

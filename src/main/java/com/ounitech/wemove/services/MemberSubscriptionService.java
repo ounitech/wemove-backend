@@ -27,7 +27,7 @@ public class MemberSubscriptionService {
         this.subscriptionRepository = subscriptionRepository;
     }
 
-    public Optional<MemberSubscription> findMember(Member member) {
+    public Optional<MemberSubscription> findMemberSubscription(Member member) {
         return memberSubscriptionRepository.findBymember(member);
     }
 
@@ -44,6 +44,12 @@ public class MemberSubscriptionService {
         memberSubscription.setStartDate(LocalDate.from(LocalDateTime.now()));
 
         return memberSubscriptionRepository.save(memberSubscription);
+    }
+
+    public void deleteById(Integer id) {
+
+
+        memberSubscriptionRepository.deleteById(id);
     }
 
 }
