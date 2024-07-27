@@ -30,8 +30,14 @@ users = fetch_random_users(500)
 insert_INTO_member = "INSERT INTO member (firstname,lastname, email,gender,address,phone,picture,active) VALUES (%s, %s,%s, %s,%s,%s, %s,%s)"
 insert_INTO_member_subscription = "INSERT INTO member_subscription (memberid,subscriptionid,startdate,paid) VALUES (%s, %s,%s, %s)"
 
-activeUsers = 0.9 * 500
-for user in users:
+activeUsers = int(0.9 * len(users))
+active_user_indices = set(random.sample(range(len(users)), activeUsers))
+
+yearly_sub = int(0.2 * activeUsers)
+monthly_sub = int(0.75 * activeUsers)
+daily_sub = int(0.05 * activeUsers)
+
+for i, user in enumerate(users):
     firstname = user["name"]["first"]
     lastname = user["name"]["last"]
     email = user["email"]
@@ -40,32 +46,24 @@ for user in users:
     phone = user["phone"]
     picture = user["picture"]["medium"]
 
-    if activeUsers:
-        active = 1
-        activeUsers -= 1
-    else:
-        active = 0
+    active = 1 if i in active_user_indices else 0
 
     myCursor.execute(insert_INTO_member, (firstname, lastname, email, gender, address, phone, picture, active))
     memberId = myCursor.lastrowid
 
-    yearlySub = 0.2 * 0.9 * 500
-    monthlySub = 0.75 * 0.9 * 500
-    dailySub = 0.05 * 0.9 * 500
-
     if active:
-        if yearlySub:
+        if yearly_sub > 0:
             subscriptionID = 1
-            yearlySub -= 1
             paid = 300
-        elif monthlySub:
+            yearly_sub -= 1
+        elif monthly_sub > 0:
             subscriptionID = 2
-            monthlySub -= 1
             paid = 30
+            monthly_sub -= 1
         else:
             subscriptionID = 3
-            dailySub -= 1
             paid = 7
+            daily_sub -= 1
 
         startDate = random_start_date()
         myCursor.execute(insert_INTO_member_subscription, (memberId, subscriptionID, startDate, paid))
