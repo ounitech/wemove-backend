@@ -63,25 +63,27 @@ public class MemberService {
     }
 
     public List<Member> findByFirstName(String firstname) {
-        return memberRepository.findByfirstname(firstname);
+        return memberRepository.findByFirstname(firstname);
     }
 
     public List<Member> findByActiveMembers() {
-        return memberRepository.findByactive((byte) 1);
+        return memberRepository.findByActive((byte) 1);
     }
 
     public List<Member> findByInactiveMembers() {
-        return memberRepository.findByactive((byte) 0);
+        return memberRepository.findByActive((byte) 0);
     }
 
     public Member findByEmail(String email) {
-        return memberRepository.findByemail(email);
+        return memberRepository.findByEmail(email);
     }
 
     public Page<Member> findMembersWithPagination(int offset) {
         Page<Member> members = memberRepository.findAll(PageRequest.of(offset, 10));
         return members;
     }
+
+
 
 
 }

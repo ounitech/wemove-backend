@@ -7,9 +7,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface MemberRepository extends JpaRepository<Member, Integer> {
-    public List<Member> findByfirstname(String firstname);
+    List<Member> findByFirstname(String firstname);
 
-    public List<Member> findByactive(Byte active);
 
-    public Member findByemail(String email);
+    //select * from member where firstname like "mou%"
+    List<Member> findAllByFirstnameStartsWith(String firstname);
+
+    List<Member> findByActive(Byte active);
+
+    Member findByEmail(String email);
+
+
 }
