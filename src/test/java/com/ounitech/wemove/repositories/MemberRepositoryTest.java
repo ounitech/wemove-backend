@@ -1,7 +1,6 @@
-package com.ounitech.wemove.member;
+package com.ounitech.wemove.repositories;
 
 import com.ounitech.wemove.models.Member;
-import com.ounitech.wemove.repositories.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

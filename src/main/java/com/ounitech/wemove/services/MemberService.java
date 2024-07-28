@@ -26,14 +26,14 @@ public class MemberService {
         return memberRepository.findById(id);
     }
 
-    public Member updateMember(Integer id, Member member) {
+    public Member updateMember(Integer id, Member newMember) {
         Optional<Member> memberById = memberRepository.findById(id);
 
-        Member member1 = memberById.get();
-        member1.setFirstname(member.getFirstname());
-        member1.setLastname(member.getLastname());
-        member1.setEmail(member.getEmail());
-        return memberRepository.save(member1);
+        Member member = memberById.get();
+        member.setFirstname(newMember.getFirstname());
+        member.setLastname(newMember.getLastname());
+        member.setEmail(newMember.getEmail());
+        return memberRepository.save(member);
     }
 
     public List<Member> findAll() {
@@ -82,8 +82,6 @@ public class MemberService {
         Page<Member> members = memberRepository.findAll(PageRequest.of(offset, 10));
         return members;
     }
-
-
 
 
 }

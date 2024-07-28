@@ -1,4 +1,4 @@
-package com.ounitech.wemove.member;
+package com.ounitech.wemove.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ounitech.wemove.controllers.MemberController;
