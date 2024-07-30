@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -25,6 +26,13 @@ public class MemberSubscriptionController {
     public MemberSubscriptionController(MemberSubscriptionService memberSubscriptionService, MemberService memberService) {
         this.memberSubscriptionService = memberSubscriptionService;
         this.memberService = memberService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<MemberSubscription>> findAll() {
+        if (memberSubscriptionService.findAll().isEmpty())
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(memberSubscriptionService.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

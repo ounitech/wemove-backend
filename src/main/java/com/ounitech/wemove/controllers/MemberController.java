@@ -46,7 +46,6 @@ public class MemberController {
     }
 
     @GetMapping("/findByFirstName/{firstname}")
-
     public ResponseEntity<List<Member>> findByFirstName(
             @PathVariable("firstname") String firstname
     ) {

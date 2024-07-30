@@ -33,9 +33,14 @@ public class MemberSubscriptionService {
         this.memberService = memberService;
     }
 
+    public List<MemberSubscription> findAll() {
+        return memberSubscriptionRepository.findAll();
+    }
+
     public Optional<MemberSubscription> findMemberSubscription(Member member) {
         return memberSubscriptionRepository.findBymember(member);
     }
+
 
     public MemberSubscription subscribe(Integer id, String subscriptionName) {
         Optional<Member> memberById = memberRepository.findById(id);
