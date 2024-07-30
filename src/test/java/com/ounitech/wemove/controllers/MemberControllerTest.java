@@ -1,14 +1,11 @@
 package com.ounitech.wemove.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ounitech.wemove.controllers.MemberController;
 import com.ounitech.wemove.models.Member;
 import com.ounitech.wemove.services.MemberService;
 import com.ounitech.wemove.services.MemberSubscriptionService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;

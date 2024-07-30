@@ -22,7 +22,7 @@ public class MemberSubscriptionController {
     private final MemberSubscriptionService memberSubscriptionService;
     private final MemberService memberService;
 
-    public MemberSubscriptionController(MemberSubscriptionService memberSubscriptionService, MemberRepository memberRepository, MemberService memberService, SubscriptionService subscriptionService) {
+    public MemberSubscriptionController(MemberSubscriptionService memberSubscriptionService, MemberService memberService) {
         this.memberSubscriptionService = memberSubscriptionService;
         this.memberService = memberService;
     }
