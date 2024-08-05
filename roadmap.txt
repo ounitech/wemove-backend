@@ -1,0 +1,39 @@
+Subscription
+
+- create a subscription //DONE
+- list subscription //DONE
+
+using a script  //DONE
+- create 3 subscriptions
+  - GOLD   : year 300 euros
+  - SILVER : monthly 30 euros
+  - BRONZE : daily 7 euros
+
+Member
+
+- create a new member  //DONE
+- activate / deactivate a member //DONE
+- subscribe a member //DONE
+- list members //DONE
+- find a member by several criteria (lastname, firstname, active ...) //DONE
+
+Using a script : //DONE
+- create about 500 members using https://randomuser.me/ WS : Use any tech stack you want
+- 90% of users are active, 10% are not active
+- for each active user affect a subscription
+  - 20% of active users have a year subscription
+  - 75% of active users have a monthly subscription
+  - 5% of active user have a daily subscription
+  
+Entry
+ - list entries
+ - create entry
+ - find entry by member
+ 
+Using a script :
+  - create 2 years of entries for the users
+
+Staff //DONE
+- add a staff
+- list staff
+- remove staff
