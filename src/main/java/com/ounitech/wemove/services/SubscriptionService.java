@@ -1,7 +1,6 @@
 package com.ounitech.wemove.services;
 
 
-import com.ounitech.wemove.models.Member;
 import com.ounitech.wemove.models.Subscription;
 import com.ounitech.wemove.repositories.SubscriptionRepository;
 import org.springframework.stereotype.Service;
@@ -11,6 +10,7 @@ import java.util.Optional;
 
 @Service
 public class SubscriptionService {
+
     private final SubscriptionRepository subscriptionRepository;
 
     public SubscriptionService(SubscriptionRepository subscriptionRepository) {
@@ -28,10 +28,4 @@ public class SubscriptionService {
     public List<Subscription> findAll() {
         return subscriptionRepository.findAll();
     }
-
-    public Subscription findByName(String subscriptionName) {
-        return subscriptionRepository.findBysubscriptionName(subscriptionName);
-    }
-
-
 }

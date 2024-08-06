@@ -47,6 +47,4 @@ public class StatsService {
     public long getFemaleMembersCount() {
         return memberRepository.countByGender("female");
     }
-
-
 }

@@ -2,17 +2,17 @@ package com.ounitech.wemove.services;
 
 import org.junit.jupiter.api.Test;
 
-class SubscriptionServiceTest {
+class EntryServiceTest {
 
     @Test
-    void save() {
+    void findAllEntries() {
     }
 
     @Test
-    void findById() {
+    void createEntry() {
     }
 
     @Test
-    void findAll() {
+    void findEntriesByMember() {
     }
 }
