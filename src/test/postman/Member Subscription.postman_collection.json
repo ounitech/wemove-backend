@@ -1,0 +1,70 @@
+{
+	"info": {
+		"_postman_id": "46380154-f755-4011-908e-61dd35fcec46",
+		"name": "Member Subscription",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33966058"
+	},
+	"item": [
+		{
+			"name": "make new sub",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/MemberSubscriptions/subscribe?id=352&subscriptionName=SILVER",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"MemberSubscriptions",
+						"subscribe"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "352"
+						},
+						{
+							"key": "subscriptionName",
+							"value": "SILVER"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get sub by member id",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/MemberSubscriptions/subscribe?id=403&subscriptionName=GOLD",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"MemberSubscriptions",
+						"subscribe"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "403"
+						},
+						{
+							"key": "subscriptionName",
+							"value": "GOLD"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
