@@ -3,10 +3,8 @@ package com.ounitech.wemove.controllers;
 
 import com.ounitech.wemove.models.Member;
 import com.ounitech.wemove.models.MemberSubscription;
-import com.ounitech.wemove.repositories.MemberRepository;
 import com.ounitech.wemove.services.MemberService;
 import com.ounitech.wemove.services.MemberSubscriptionService;
-import com.ounitech.wemove.services.SubscriptionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,15 +28,15 @@ public class MemberSubscriptionController {
 
     @GetMapping
     public ResponseEntity<List<MemberSubscription>> findAll() {
-        if (memberSubscriptionService.findAll().isEmpty())
+        List<MemberSubscription> memberSubscriptions = memberSubscriptionService.findAll();
+        if (memberSubscriptions.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        return new ResponseEntity<>(memberSubscriptionService.findAll(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(memberSubscriptions, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MemberSubscription> findMemberSubscription(
-            @PathVariable Integer id
-    ) {
+    public ResponseEntity<MemberSubscription> findMemberSubscription(@PathVariable Integer id) {
         Optional<Member> optionalMember = memberService.findById(id);
 
         if (optionalMember.isPresent()) {
@@ -50,8 +48,8 @@ public class MemberSubscriptionController {
                 MemberSubscription memberSubscription = optionalMemberSubscription.get();
 
                 return new ResponseEntity<>(memberSubscription, HttpStatus.OK);
-            } else
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -60,26 +58,26 @@ public class MemberSubscriptionController {
     @PostMapping("/subscribe")
     public ResponseEntity<MemberSubscription> subscribe(@RequestParam Integer id, @RequestParam String subscriptionName) {
 
-        if (!Objects.equals(subscriptionName, "GOLD") && !Objects.equals(subscriptionName, "SILVER") && !Objects.equals(subscriptionName, "BRONZE"))
+        if (!Objects.equals(subscriptionName, "GOLD") && !Objects.equals(subscriptionName, "SILVER") && !Objects.equals(subscriptionName, "BRONZE")) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
         Optional<Member> memberById = memberService.findById(id);
 
-
         if (memberById.isPresent()) {
-            if (memberSubscriptionService.findMemberSubscription(memberById.get()).isPresent()) {
+            Optional<MemberSubscription> memberSubscription = memberSubscriptionService.findMemberSubscription(memberById.get());
+            if (memberSubscription.isPresent()) {
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             }
-            return new ResponseEntity<>(memberSubscriptionService.subscribe(id, subscriptionName), HttpStatus.OK);
-        } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            MemberSubscription subscribe = memberSubscriptionService.subscribe(id, subscriptionName);
+            return new ResponseEntity<>(subscribe, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteMemberSubscription(
-            @PathVariable("id") Integer id
-    ) {
+    public ResponseEntity<?> deleteMemberSubscription(@PathVariable("id") Integer id) {
         Optional<Member> optionalMember = memberService.findById(id);
-
 
         if (optionalMember.isPresent()) {
             Member member = optionalMember.get();

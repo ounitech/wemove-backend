@@ -13,6 +13,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/staff")
 public class StaffController {
+
     private final StaffService staffService;
 
     public StaffController(StaffService staffService) {
@@ -20,122 +21,140 @@ public class StaffController {
     }
 
     @GetMapping("/findById/{id}")
-    public ResponseEntity<Staff> findById(
-            @PathVariable("id") Integer id
-    ) {
+    public ResponseEntity<Staff> findById(@PathVariable("id") Integer id) {
         Optional<Staff> staff = staffService.findById(id);
 
         if (staff.isPresent()) {
             return new ResponseEntity<>(staff.get(), HttpStatus.OK);
-        } else
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping
     public ResponseEntity<List<Staff>> findAllStaff() {
-        if (staffService.findAll().isEmpty())
+        List<Staff> staff = staffService.findAll();
+        if (staff.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        return new ResponseEntity<>(staffService.findAll(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(staff, HttpStatus.OK);
     }
 
     @GetMapping("/findByFirstName/{firstname}")
-    public ResponseEntity<List<Staff>> findByFirstName(
-            @PathVariable("firstname") String firstname
-    ) {
-        if (staffService.findByFirstName(firstname).isEmpty())
+    public ResponseEntity<List<Staff>> findByFirstName(@PathVariable("firstname") String firstname) {
+        List<Staff> staff = staffService.findByFirstName(firstname);
+        if (staff.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        return new ResponseEntity<>(staffService.findByFirstName(firstname), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(staff, HttpStatus.OK);
     }
 
     @GetMapping("/findByActive")
     public ResponseEntity<List<Staff>> findByActiveStaff() {
-        if (staffService.findByActiveStaff().isEmpty())
+        List<Staff> staff = staffService.findByActiveStaff();
+        if (staff.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        return new ResponseEntity<>(staffService.findByActiveStaff(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(staff, HttpStatus.OK);
     }
 
     @GetMapping("/findByInactive")
-    public ResponseEntity<List<Staff>> findByInctiveStaff() {
-        if (staffService.findByInactiveStaff().isEmpty())
+    public ResponseEntity<List<Staff>> findByInactiveStaff() {
+        List<Staff> staff = staffService.findByInactiveStaff();
+        if (staff.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        return new ResponseEntity<>(staffService.findByInactiveStaff(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(staff, HttpStatus.OK);
     }
 
     @GetMapping("/findByEmail/{email}")
-    public ResponseEntity<Staff> findByEmail(
-            @PathVariable("email") String email
-    ) {
-        if (staffService.findByEmail(email) == null)
+    public ResponseEntity<Staff> findByEmail(@PathVariable("email") String email) {
+        Staff staff = staffService.findByEmail(email);
+        if (staff == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        return new ResponseEntity<>(staffService.findByEmail(email), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(staff, HttpStatus.OK);
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Staff> save(
-            @RequestBody Staff staff
-    ) {
+    public ResponseEntity<Staff> save(@RequestBody Staff input) {
         //ensure that the email entered is unique
-        if (staffService.findByEmail(staff.getEmail()) != null)
+        if (staffService.findByEmail(input.getEmail()) != null) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
 
-        if (staff.getEmail() == null || staff.getFirstname() == null || staff.getLastname() == null || staff.getAddress() == null || staff.getPhone() == null || staff.getPicture() == null)
+        if (input.getEmail() == null
+                || input.getFirstname() == null
+                || input.getLastname() == null
+                || input.getAddress() == null
+                || input.getPhone() == null
+                || input.getPicture() == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        if (staff.getEmail().isEmpty() || staff.getFirstname().isEmpty() || staff.getLastname().isEmpty() || staff.getAddress().isEmpty() || staff.getPhone().isEmpty() || staff.getPicture().isEmpty())
+        }
+        if (input.getEmail().isEmpty()
+                || input.getFirstname().isEmpty()
+                || input.getLastname().isEmpty()
+                || input.getAddress().isEmpty()
+                || input.getPhone().isEmpty()
+                || input.getPicture().isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
-        return new ResponseEntity<>(staffService.save(staff), HttpStatus.CREATED);
+        Staff savedStaff = staffService.save(input);
+        return new ResponseEntity<>(savedStaff, HttpStatus.CREATED);
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Staff> updateStaff(
-            @PathVariable("id") Integer id,
-            @RequestBody Staff staff
-    ) {
-        Optional<Staff> staff1 = staffService.findById(id);
+    public ResponseEntity<Staff> updateStaff(@PathVariable("id") Integer id, @RequestBody Staff input) {
+        Optional<Staff> staff = staffService.findById(id);
 
-        if (staff1.isPresent()) {
-            if (staff.getEmail() == null || staff.getFirstname() == null || staff.getLastname() == null || staff.getAddress() == null || staff.getPhone() == null || staff.getPicture() == null)
+        if (staff.isPresent()) {
+            if (input.getEmail() == null
+                    || input.getFirstname() == null
+                    || input.getLastname() == null
+                    || input.getAddress() == null
+                    || input.getPhone() == null
+                    || input.getPicture() == null) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            if (staff.getEmail().isEmpty() || staff.getFirstname().isEmpty() || staff.getLastname().isEmpty() || staff.getAddress().isEmpty() || staff.getPhone().isEmpty() || staff.getPicture().isEmpty())
+            }
+            if (input.getEmail().isEmpty()
+                    || input.getFirstname().isEmpty()
+                    || input.getLastname().isEmpty()
+                    || input.getAddress().isEmpty()
+                    || input.getPhone().isEmpty()
+                    || input.getPicture().isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
 
-            Staff updatedStaff = staffService.updateStaff(id, staff);
+            Staff updatedStaff = staffService.updateStaff(id, input);
             return new ResponseEntity<>(updatedStaff, HttpStatus.OK);
-        } else
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("/activate/{id}")
-    public ResponseEntity<Staff> activateStaff(
-            @PathVariable("id") Integer id
-    ) {
+    public ResponseEntity<Staff> activateStaff(@PathVariable("id") Integer id) {
         Optional<Staff> staff = staffService.findById(id);
 
         if (staff.isPresent()) {
             Staff activatedStaff = staffService.activateStaff(id);
             return new ResponseEntity<>(activatedStaff, HttpStatus.OK);
-        } else
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("/deactivate/{id}")
-    public ResponseEntity<Staff> deactivateStaff(
-            @PathVariable("id") Integer id
-    ) {
+    public ResponseEntity<Staff> deactivateStaff(@PathVariable("id") Integer id) {
         Optional<Staff> staff = staffService.findById(id);
 
         if (staff.isPresent()) {
             Staff deactivatedStaff = staffService.deactivateStaff(id);
             return new ResponseEntity<>(deactivatedStaff, HttpStatus.OK);
-        } else
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(
-            @PathVariable("id") Integer id
-    ) {
+    public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
         Optional<Staff> staff = staffService.findById(id);
 
         if (staff.isPresent()) {

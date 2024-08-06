@@ -23,8 +23,11 @@ public class SubscriptionController {
 
     @GetMapping
     public ResponseEntity<List<Subscription>> findAllSubscriptions() {
-        if (subscriptionService.findAll().isEmpty())
+        List<Subscription> subscriptions = subscriptionService.findAll();
+        if (subscriptions.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        return new ResponseEntity<>(subscriptionService.findAll(), HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(subscriptions, HttpStatus.OK);
     }
 }
