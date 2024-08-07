@@ -1,6 +1,9 @@
 package com.ounitech.wemove.models;
 
 import jakarta.persistence.*;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.Set;
 
@@ -85,55 +88,36 @@ public class Subscription {
         this.memberSubscriptions = memberSubscriptions;
     }
 
-    public boolean equals(final Object o) {
-        if (o == this) return true;
-        if (!(o instanceof Subscription)) return false;
-        final Subscription other = (Subscription) o;
-        if (!other.canEqual((Object) this)) return false;
-        final Object this$id = this.getId();
-        final Object other$id = other.getId();
-        if (this$id == null ? other$id != null : !this$id.equals(other$id)) return false;
-        final Object this$subscriptionName = this.getSubscriptionName();
-        final Object other$subscriptionName = other.getSubscriptionName();
-        if (this$subscriptionName == null ? other$subscriptionName != null : !this$subscriptionName.equals(other$subscriptionName))
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof Subscription that)) {
             return false;
-        if (this.getSubscriptionPrice() != other.getSubscriptionPrice()) return false;
-        final Object this$duration = this.getDuration();
-        final Object other$duration = other.getDuration();
-        if (this$duration == null ? other$duration != null : !this$duration.equals(other$duration)) return false;
-        final Object this$active = this.getActive();
-        final Object other$active = other.getActive();
-        if (this$active == null ? other$active != null : !this$active.equals(other$active)) return false;
-        final Object this$memberSubscriptions = this.getMemberSubscriptions();
-        final Object other$memberSubscriptions = other.getMemberSubscriptions();
-        if (this$memberSubscriptions == null ? other$memberSubscriptions != null : !this$memberSubscriptions.equals(other$memberSubscriptions))
-            return false;
-        return true;
+        }
+
+        return new EqualsBuilder()
+                .append(subscriptionName, that.subscriptionName)
+                .isEquals();
     }
 
-    protected boolean canEqual(final Object other) {
-        return other instanceof Subscription;
-    }
-
+    @Override
     public int hashCode() {
-        final int PRIME = 59;
-        int result = 1;
-        final Object $id = this.getId();
-        result = result * PRIME + ($id == null ? 43 : $id.hashCode());
-        final Object $subscriptionName = this.getSubscriptionName();
-        result = result * PRIME + ($subscriptionName == null ? 43 : $subscriptionName.hashCode());
-        result = result * PRIME + this.getSubscriptionPrice();
-        final Object $duration = this.getDuration();
-        result = result * PRIME + ($duration == null ? 43 : $duration.hashCode());
-        final Object $active = this.getActive();
-        result = result * PRIME + ($active == null ? 43 : $active.hashCode());
-        final Object $memberSubscriptions = this.getMemberSubscriptions();
-        result = result * PRIME + ($memberSubscriptions == null ? 43 : $memberSubscriptions.hashCode());
-        return result;
+        return new HashCodeBuilder(17, 37)
+                .append(subscriptionName)
+                .toHashCode();
     }
 
+    @Override
     public String toString() {
-        return "Subscription(id=" + this.getId() + ", subscriptionName=" + this.getSubscriptionName() + ", subscriptionPrice=" + this.getSubscriptionPrice() + ", duration=" + this.getDuration() + ", active=" + this.getActive() + ", memberSubscriptions=" + this.getMemberSubscriptions() + ")";
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("subscriptionName", subscriptionName)
+                .append("subscriptionPrice", subscriptionPrice)
+                .append("duration", duration)
+                .append("active", active)
+                .toString();
     }
-
 }

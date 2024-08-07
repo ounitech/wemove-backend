@@ -2,6 +2,9 @@ package com.ounitech.wemove.models;
 
 
 import jakarta.persistence.*;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.time.LocalDate;
 
@@ -70,48 +73,36 @@ public class MemberSubscription {
         this.member = member;
     }
 
-    public boolean equals(final Object o) {
-        if (o == this) return true;
-        if (!(o instanceof MemberSubscription)) return false;
-        final MemberSubscription other = (MemberSubscription) o;
-        if (!other.canEqual((Object) this)) return false;
-        final Object this$id = this.getId();
-        final Object other$id = other.getId();
-        if (this$id == null ? other$id != null : !this$id.equals(other$id)) return false;
-        final Object this$startDate = this.getStartDate();
-        final Object other$startDate = other.getStartDate();
-        if (this$startDate == null ? other$startDate != null : !this$startDate.equals(other$startDate)) return false;
-        if (this.getPaid() != other.getPaid()) return false;
-        final Object this$subscription = this.getSubscription();
-        final Object other$subscription = other.getSubscription();
-        if (this$subscription == null ? other$subscription != null : !this$subscription.equals(other$subscription))
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof MemberSubscription that)) {
             return false;
-        final Object this$member = this.getMember();
-        final Object other$member = other.getMember();
-        if (this$member == null ? other$member != null : !this$member.equals(other$member)) return false;
-        return true;
+        }
+
+        return new EqualsBuilder()
+                .append(id, that.id)
+                .isEquals();
     }
 
-    protected boolean canEqual(final Object other) {
-        return other instanceof MemberSubscription;
-    }
-
+    @Override
     public int hashCode() {
-        final int PRIME = 59;
-        int result = 1;
-        final Object $id = this.getId();
-        result = result * PRIME + ($id == null ? 43 : $id.hashCode());
-        final Object $startDate = this.getStartDate();
-        result = result * PRIME + ($startDate == null ? 43 : $startDate.hashCode());
-        result = result * PRIME + this.getPaid();
-        final Object $subscription = this.getSubscription();
-        result = result * PRIME + ($subscription == null ? 43 : $subscription.hashCode());
-        final Object $member = this.getMember();
-        result = result * PRIME + ($member == null ? 43 : $member.hashCode());
-        return result;
+        return new HashCodeBuilder(17, 37)
+                .append(id)
+                .toHashCode();
     }
 
+    @Override
     public String toString() {
-        return "MemberSubscription(id=" + this.getId() + ", startDate=" + this.getStartDate() + ", paid=" + this.getPaid() + ", subscription=" + this.getSubscription() + ", member=" + this.getMember() + ")";
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("startDate", startDate)
+                .append("paid", paid)
+                .append("subscription", subscription.getSubscriptionName())
+                .append("member", member.getEmail())
+                .toString();
     }
 }
