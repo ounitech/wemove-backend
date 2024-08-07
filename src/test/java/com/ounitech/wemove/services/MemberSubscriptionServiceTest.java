@@ -78,7 +78,7 @@ class MemberSubscriptionServiceTest {
 
         Member member = new Member();
         member.setId(id);
-        member.setActive((byte) 1);
+        member.setActive(true);
 
         MemberSubscription memberSubscription = new MemberSubscription();
         memberSubscription.setSubscription(subscription);
@@ -97,7 +97,7 @@ class MemberSubscriptionServiceTest {
         assertThat(response).isNotNull();
         assertThat(response.getMember()).isEqualTo(member);
         assertThat(response.getSubscription()).isEqualTo(subscription);
-        assertThat(response.getMember().getActive()).isEqualTo((byte) 1);
+        assertThat(response.getMember().getActive()).isEqualTo(true);
 
     }
 

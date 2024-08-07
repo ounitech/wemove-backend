@@ -47,7 +47,7 @@ public class StaffService {
         Optional<Staff> staffById = staffRepository.findById(id);
 
         Staff staff = staffById.get();
-        staff.setActive((byte) 1);
+        staff.setActive(true);
 
         return staffRepository.save(staff);
     }
@@ -56,7 +56,7 @@ public class StaffService {
         Optional<Staff> staffById = staffRepository.findById(id);
 
         Staff staff = staffById.get();
-        staff.setActive((byte) 0);
+        staff.setActive(false);
 
         return staffRepository.save(staff);
     }
@@ -66,11 +66,11 @@ public class StaffService {
     }
 
     public List<Staff> findByActiveStaff() {
-        return staffRepository.findByactive((byte) 1);
+        return staffRepository.findByactive(true);
     }
 
     public List<Staff> findByInactiveStaff() {
-        return staffRepository.findByactive((byte) 0);
+        return staffRepository.findByactive(false);
     }
 
     public Staff findByEmail(String email) {

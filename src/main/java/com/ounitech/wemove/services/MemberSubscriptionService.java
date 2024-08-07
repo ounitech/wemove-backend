@@ -45,7 +45,7 @@ public class MemberSubscriptionService {
         Optional<Member> memberById = memberRepository.findById(id);
         Member member = memberById.get();
 
-        member.setActive((byte) 1);
+        member.setActive(true);
 
         Subscription subscriptionByName = subscriptionRepository.findBysubscriptionName(subscriptionName);
 

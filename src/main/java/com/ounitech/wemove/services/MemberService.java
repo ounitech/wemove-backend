@@ -48,7 +48,7 @@ public class MemberService {
         Optional<Member> memberById = memberRepository.findById(id);
 
         Member member = memberById.get();
-        member.setActive((byte) 1);
+        member.setActive(true);
 
         return memberRepository.save(member);
     }
@@ -57,7 +57,7 @@ public class MemberService {
         Optional<Member> memberById = memberRepository.findById(id);
 
         Member member = memberById.get();
-        member.setActive((byte) 0);
+        member.setActive(false);
 
         return memberRepository.save(member);
     }
@@ -67,11 +67,11 @@ public class MemberService {
     }
 
     public List<Member> findByActiveMembers() {
-        return memberRepository.findByActive((byte) 1);
+        return memberRepository.findByActive(true);
     }
 
     public List<Member> findByInactiveMembers() {
-        return memberRepository.findByActive((byte) 0);
+        return memberRepository.findByActive(false);
     }
 
     public Member findByEmail(String email) {

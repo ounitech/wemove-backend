@@ -32,7 +32,7 @@ public class Subscription {
     private Duration duration;
 
     @Column(name = "active", nullable = false)
-    private Byte active;
+    private Boolean active;
 
     @OneToMany(mappedBy = "subscription")
     private Set<MemberSubscription> memberSubscriptions;
@@ -56,7 +56,7 @@ public class Subscription {
         return this.duration;
     }
 
-    public Byte getActive() {
+    public Boolean getActive() {
         return this.active;
     }
 
@@ -80,7 +80,7 @@ public class Subscription {
         this.duration = duration;
     }
 
-    public void setActive(Byte active) {
+    public void setActive(Boolean active) {
         this.active = active;
     }
 

@@ -9,7 +9,7 @@ public interface StaffRepository extends JpaRepository<Staff, Integer> {
 
     List<Staff> findByfirstname(String firstname);
 
-    List<Staff> findByactive(Byte active);
+    List<Staff> findByactive(Boolean active);
 
     Staff findByemail(String email);
 }
