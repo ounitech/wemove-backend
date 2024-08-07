@@ -2,6 +2,9 @@ package com.ounitech.wemove.models;
 
 
 import jakarta.persistence.*;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.time.LocalDateTime;
 
@@ -58,45 +61,37 @@ public class Entry {
         this.member = member;
     }
 
-    public boolean equals(final Object o) {
-        if (o == this) return true;
-        if (!(o instanceof Entry)) return false;
-        final Entry other = (Entry) o;
-        if (!other.canEqual((Object) this)) return false;
-        final Object this$id = this.getId();
-        final Object other$id = other.getId();
-        if (this$id == null ? other$id != null : !this$id.equals(other$id)) return false;
-        final Object this$entryTime = this.getEntryTime();
-        final Object other$entryTime = other.getEntryTime();
-        if (this$entryTime == null ? other$entryTime != null : !this$entryTime.equals(other$entryTime)) return false;
-        final Object this$leaveTime = this.getLeaveTime();
-        final Object other$leaveTime = other.getLeaveTime();
-        if (this$leaveTime == null ? other$leaveTime != null : !this$leaveTime.equals(other$leaveTime)) return false;
-        final Object this$member = this.getMember();
-        final Object other$member = other.getMember();
-        if (this$member == null ? other$member != null : !this$member.equals(other$member)) return false;
-        return true;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof Entry entry)) {
+            return false;
+        }
+
+        return new EqualsBuilder()
+                .append(entryTime, entry.entryTime)
+                .append(member, entry.member)
+                .isEquals();
     }
 
-    protected boolean canEqual(final Object other) {
-        return other instanceof Entry;
-    }
-
+    @Override
     public int hashCode() {
-        final int PRIME = 59;
-        int result = 1;
-        final Object $id = this.getId();
-        result = result * PRIME + ($id == null ? 43 : $id.hashCode());
-        final Object $entryTime = this.getEntryTime();
-        result = result * PRIME + ($entryTime == null ? 43 : $entryTime.hashCode());
-        final Object $leaveTime = this.getLeaveTime();
-        result = result * PRIME + ($leaveTime == null ? 43 : $leaveTime.hashCode());
-        final Object $member = this.getMember();
-        result = result * PRIME + ($member == null ? 43 : $member.hashCode());
-        return result;
+        return new HashCodeBuilder(17, 37)
+                .append(entryTime)
+                .append(member)
+                .toHashCode();
     }
 
+    @Override
     public String toString() {
-        return "Entry(id=" + this.getId() + ", entryTime=" + this.getEntryTime() + ", leaveTime=" + this.getLeaveTime() + ", member=" + this.getMember() + ")";
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("entryTime", entryTime)
+                .append("leaveTime", leaveTime)
+                .append("member", member.getEmail())
+                .toString();
     }
 }
