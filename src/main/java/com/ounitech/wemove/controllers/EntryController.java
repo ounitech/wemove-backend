@@ -3,7 +3,6 @@ package com.ounitech.wemove.controllers;
 
 import com.ounitech.wemove.models.Entry;
 import com.ounitech.wemove.services.EntryService;
-import com.ounitech.wemove.services.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,25 +14,26 @@ import java.util.List;
 public class EntryController {
 
     private final EntryService entryService;
-    private final MemberService memberService;
 
-    EntryController(EntryService entryService, MemberService memberService) {
+    public EntryController(EntryService entryService) {
         this.entryService = entryService;
-        this.memberService = memberService;
     }
 
     @GetMapping("/findAll")
     public ResponseEntity<List<Entry>> findAllEntries() {
-        return new ResponseEntity<>(entryService.findAllEntries(), HttpStatus.OK);
+        List<Entry> entries = entryService.findAllEntries();
+        return new ResponseEntity<>(entries, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Entry> createEntry(@RequestBody Entry entry) {
-        return new ResponseEntity<>(entryService.createEntry(entry), HttpStatus.CREATED);
+    public ResponseEntity<Entry> createEntry(@RequestBody Entry input) {
+        Entry savedEntry = entryService.createEntry(input);
+        return new ResponseEntity<>(savedEntry, HttpStatus.CREATED);
     }
 
     @GetMapping("/{memberId}")
     public ResponseEntity<List<Entry>> findEntriesByMember(@PathVariable Integer memberId) {
-        return new ResponseEntity<>(entryService.findEntriesByMember(memberId), HttpStatus.OK);
+        List<Entry> entries = entryService.findEntriesByMember(memberId);
+        return new ResponseEntity<>(entries, HttpStatus.OK);
     }
 }

@@ -1,16 +1,15 @@
 package com.ounitech.wemove.controllers;
 
 
+import com.ounitech.wemove.models.Member;
 import com.ounitech.wemove.models.MemberSubscription;
 import com.ounitech.wemove.services.MemberService;
-import com.ounitech.wemove.models.Member;
 import com.ounitech.wemove.services.MemberSubscriptionService;
-import org.springframework.http.HttpStatus;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,123 +26,130 @@ public class MemberController {
     }
 
     @GetMapping("/findById/{id}")
-    public ResponseEntity<Member> findById(
-            @PathVariable("id") Integer id
-    ) {
+    public ResponseEntity<Member> findById(@PathVariable("id") Integer id) {
         Optional<Member> member = memberService.findById(id);
 
         if (member.isPresent()) {
             return new ResponseEntity<>(member.get(), HttpStatus.OK);
-        } else
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping
     public ResponseEntity<List<Member>> findAllMembers() {
-        if (memberService.findAll().isEmpty())
+        List<Member> members = memberService.findAll();
+        if (members.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        return new ResponseEntity<>(memberService.findAll(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(members, HttpStatus.OK);
     }
 
     @GetMapping("/findByFirstName/{firstname}")
-    public ResponseEntity<List<Member>> findByFirstName(
-            @PathVariable("firstname") String firstname
-    ) {
-        if (memberService.findByFirstName(firstname).isEmpty())
+    public ResponseEntity<List<Member>> findByFirstName(@PathVariable("firstname") String firstname) {
+        List<Member> members = memberService.findByFirstName(firstname);
+        if (members.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        return new ResponseEntity<>(memberService.findByFirstName(firstname), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(members, HttpStatus.OK);
     }
 
     @GetMapping("/findByActive")
     public ResponseEntity<List<Member>> findByActiveMembers() {
-        if (memberService.findByActiveMembers().isEmpty())
+        List<Member> members = memberService.findByActiveMembers();
+        if (members.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        return new ResponseEntity<>(memberService.findByActiveMembers(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(members, HttpStatus.OK);
     }
 
     @GetMapping("/findByInactive")
     public ResponseEntity<List<Member>> findByInctiveMembers() {
-        if (memberService.findByInactiveMembers().isEmpty())
+        List<Member> members = memberService.findByInactiveMembers();
+        if (members.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        return new ResponseEntity<>(memberService.findByInactiveMembers(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(members, HttpStatus.OK);
     }
 
     @GetMapping("/findByEmail/{email}")
-    public ResponseEntity<Member> findByEmail(
-            @PathVariable("email") String email
-    ) {
-        if (memberService.findByEmail(email) == null)
+    public ResponseEntity<Member> findByEmail(@PathVariable("email") String email) {
+        Member member = memberService.findByEmail(email);
+        if (member == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        return new ResponseEntity<>(memberService.findByEmail(email), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(member, HttpStatus.OK);
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Member> save(
-            @RequestBody Member member
-    ) {
+    public ResponseEntity<Member> save(@RequestBody Member input) {
         //ensure that the email entered is unique
-        if (memberService.findByEmail(member.getEmail()) != null) {
+        Member member = memberService.findByEmail(input.getEmail());
+        if (member != null) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 
-        if (member.getEmail() == null || member.getFirstname() == null || member.getLastname() == null)
+        if (input.getEmail() == null
+                || input.getFirstname() == null
+                || input.getLastname() == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        if (member.getEmail().isEmpty() || member.getFirstname().isEmpty() || member.getLastname().isEmpty())
+        }
+        if (input.getEmail().isEmpty()
+                || input.getFirstname().isEmpty()
+                || input.getLastname().isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
-        return new ResponseEntity<>(memberService.save(member), HttpStatus.CREATED);
+        Member savedMember = memberService.save(input);
+        return new ResponseEntity<>(savedMember, HttpStatus.CREATED);
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Member> updateMember(
-            @PathVariable("id") Integer id,
-            @RequestBody Member member
-    ) {
-        Optional<Member> member1 = memberService.findById(id);
+    public ResponseEntity<Member> updateMember(@PathVariable("id") Integer id, @RequestBody Member input) {
+        Optional<Member> member = memberService.findById(id);
 
-        if (member1.isPresent()) {
-            if (member.getEmail() == null || member.getFirstname() == null || member.getLastname() == null)
+        if (member.isPresent()) {
+            if (input.getEmail() == null
+                    || input.getFirstname() == null
+                    || input.getLastname() == null) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            if (member.getEmail().isEmpty() || member.getFirstname().isEmpty() || member.getLastname().isEmpty())
+            }
+            if (input.getEmail().isEmpty()
+                    || input.getFirstname().isEmpty()
+                    || input.getLastname().isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
 
-            Member updatedMember = memberService.updateMember(id, member);
+            Member updatedMember = memberService.updateMember(id, input);
             return new ResponseEntity<>(updatedMember, HttpStatus.OK);
-        } else
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("/activate/{id}")
-    public ResponseEntity<Member> activateMember(
-            @PathVariable("id") Integer id
-    ) {
+    public ResponseEntity<Member> activateMember(@PathVariable("id") Integer id) {
         Optional<Member> member = memberService.findById(id);
 
         if (member.isPresent()) {
             Member activatedMember = memberService.activateMember(id);
             return new ResponseEntity<>(activatedMember, HttpStatus.OK);
-        } else
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("/deactivate/{id}")
-    public ResponseEntity<Member> deactivateMember(
-            @PathVariable("id") Integer id
-    ) {
+    public ResponseEntity<Member> deactivateMember(@PathVariable("id") Integer id) {
         Optional<Member> member = memberService.findById(id);
 
         if (member.isPresent()) {
             Member deactivatedMember = memberService.deactivateMember(id);
             return new ResponseEntity<>(deactivatedMember, HttpStatus.OK);
-        } else
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(
-            @PathVariable("id") Integer id
-    ) {
+    public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
         Optional<Member> optionalMember = memberService.findById(id);
 
         if (optionalMember.isPresent()) {
@@ -164,9 +170,8 @@ public class MemberController {
     }
 
     @GetMapping("/page/{offset}")
-    public ResponseEntity<Page<Member>> findMembersWithPagination(
-            @PathVariable int offset
-    ) {
-        return new ResponseEntity<>(memberService.findMembersWithPagination(offset), HttpStatus.OK);
+    public ResponseEntity<Page<Member>> findMembersWithPagination(@PathVariable int offset) {
+        Page<Member> members = memberService.findMembersWithPagination(offset);
+        return new ResponseEntity<>(members, HttpStatus.OK);
     }
 }

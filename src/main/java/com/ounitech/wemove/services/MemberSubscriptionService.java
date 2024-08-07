@@ -41,7 +41,6 @@ public class MemberSubscriptionService {
         return memberSubscriptionRepository.findBymember(member);
     }
 
-
     public MemberSubscription subscribe(Integer id, String subscriptionName) {
         Optional<Member> memberById = memberRepository.findById(id);
         Member member = memberById.get();
@@ -93,5 +92,4 @@ public class MemberSubscriptionService {
     public void deleteMemberSubscription(Integer id) {
         memberSubscriptionRepository.deleteById(id);
     }
-
 }

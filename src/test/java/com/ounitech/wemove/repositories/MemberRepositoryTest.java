@@ -35,7 +35,7 @@ class MemberRepositoryTest {
     }
 
     @Test
-    void findById() throws Exception {
+    void findById() {
         // When
         Optional<Member> member = memberRepository.findById(4);
 

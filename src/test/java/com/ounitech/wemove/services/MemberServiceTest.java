@@ -2,7 +2,6 @@ package com.ounitech.wemove.services;
 
 import com.ounitech.wemove.models.Member;
 import com.ounitech.wemove.repositories.MemberRepository;
-import com.ounitech.wemove.services.MemberService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -10,7 +9,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import java.time.temporal.Temporal;
 import java.util.List;
 import java.util.Optional;
 

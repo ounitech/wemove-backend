@@ -11,7 +11,6 @@ public interface MemberSubscriptionRepository extends JpaRepository<MemberSubscr
 
     Optional<MemberSubscription> findBymember(Member member);
 
-
     @Query("SELECT COUNT(m) FROM MemberSubscription m WHERE m.subscription.subscriptionName = 'GOLD'")
     long countGoldMembers();
 
