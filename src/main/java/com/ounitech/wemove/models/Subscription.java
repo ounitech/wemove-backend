@@ -31,7 +31,7 @@ public class Subscription {
     @Enumerated(EnumType.STRING)
     private Duration duration;
 
-    @Column(name = "active", nullable = false)
+    @Column(name = "active", nullable = false, columnDefinition = "boolean default 1")
     private boolean active;
 
     @OneToMany(mappedBy = "subscription")

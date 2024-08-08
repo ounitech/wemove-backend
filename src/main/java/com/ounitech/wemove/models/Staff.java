@@ -35,7 +35,7 @@ public class Staff {
     @Column(name = "picture", nullable = false)
     private String picture;
 
-    @Column(name = "active", nullable = false)
+    @Column(name = "active", nullable = false, columnDefinition = "boolean default 0")
     private boolean active;
 
     @ManyToOne

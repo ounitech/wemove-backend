@@ -36,7 +36,7 @@ public class Member {
     @Column(name = "picture")
     private String picture;
 
-    @Column(name = "active", nullable = false, columnDefinition = "boolean DEFAULT 0")
+    @Column(name = "active", nullable = false, columnDefinition = "boolean default 0")
     private boolean active;
 
 //    @OneToOne
