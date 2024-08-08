@@ -36,8 +36,8 @@ public class Member {
     @Column(name = "picture")
     private String picture;
 
-    @Column(name = "active", nullable = false, columnDefinition = "BOOLEAN DEFAULT 0")
-    private Boolean active;
+    @Column(name = "active", nullable = false, columnDefinition = "boolean DEFAULT 0")
+    private boolean active;
 
 //    @OneToOne
 //    @JoinColumn(name = "memberSubid", referencedColumnName = "id")
@@ -81,7 +81,7 @@ public class Member {
         return this.picture;
     }
 
-    public Boolean getActive() {
+    public boolean getActive() {
         return this.active;
     }
 
@@ -121,7 +121,7 @@ public class Member {
         this.picture = picture;
     }
 
-    public void setActive(Boolean active) {
+    public void setActive(boolean active) {
         this.active = active;
     }
 

@@ -11,7 +11,7 @@ public interface MemberRepository extends JpaRepository<Member, Integer> {
 
     List<Member> findByFirstname(String firstname);
 
-    List<Member> findByActive(Boolean active);
+    List<Member> findByActive(boolean active);
 
     Member findByEmail(String email);
 
