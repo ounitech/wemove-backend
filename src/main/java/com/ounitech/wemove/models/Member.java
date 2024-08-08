@@ -36,8 +36,8 @@ public class Member {
     @Column(name = "picture")
     private String picture;
 
-    @Column(name = "active", nullable = false, columnDefinition = "BYTE DEFAULT 0")
-    private Byte active;
+    @Column(name = "active", nullable = false, columnDefinition = "boolean default 0")
+    private boolean active;
 
 //    @OneToOne
 //    @JoinColumn(name = "memberSubid", referencedColumnName = "id")
@@ -81,7 +81,7 @@ public class Member {
         return this.picture;
     }
 
-    public Byte getActive() {
+    public boolean getActive() {
         return this.active;
     }
 
@@ -121,7 +121,7 @@ public class Member {
         this.picture = picture;
     }
 
-    public void setActive(Byte active) {
+    public void setActive(boolean active) {
         this.active = active;
     }
 

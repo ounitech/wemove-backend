@@ -175,14 +175,14 @@ class MemberControllerTest {
         member.setFirstname("phil");
         member.setLastname("webb");
         member.setEmail("webb@gmail.com");
-        member.setActive((byte) 0);
+        member.setActive(false);
         member.setId(1000);
 
         Member activatedMember = new Member();
         member.setFirstname("phil");
         member.setLastname("webb");
         member.setEmail("webb@gmail.com");
-        member.setActive((byte) 1);
+        member.setActive(true);
         member.setId(1000);
 
         Mockito.when(memberService.findById(any(Integer.class))).thenReturn(Optional.of(member));

@@ -35,8 +35,8 @@ public class Staff {
     @Column(name = "picture", nullable = false)
     private String picture;
 
-    @Column(name = "active", nullable = false)
-    private Byte active;
+    @Column(name = "active", nullable = false, columnDefinition = "boolean default 0")
+    private boolean active;
 
     @ManyToOne
     @JoinColumn(name = "roleid", referencedColumnName = "id", nullable = false)
@@ -77,7 +77,7 @@ public class Staff {
         return this.picture;
     }
 
-    public Byte getActive() {
+    public boolean getActive() {
         return this.active;
     }
 
@@ -117,7 +117,7 @@ public class Staff {
         this.picture = picture;
     }
 
-    public void setActive(Byte active) {
+    public void setActive(boolean active) {
         this.active = active;
     }
 

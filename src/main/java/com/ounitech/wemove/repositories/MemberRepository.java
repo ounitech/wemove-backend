@@ -11,15 +11,15 @@ public interface MemberRepository extends JpaRepository<Member, Integer> {
 
     List<Member> findByFirstname(String firstname);
 
-    List<Member> findByActive(Byte active);
+    List<Member> findByActive(boolean active);
 
     Member findByEmail(String email);
 
     long countByGender(String gender);
 
-    @Query("SELECT COUNT(m) FROM Member m WHERE m.active = 1")
+    @Query("SELECT COUNT(m) FROM Member m WHERE m.active = true")
     long countActiveMembers();
 
-    @Query("SELECT COUNT(m) FROM Member m WHERE m.active = 0")
+    @Query("SELECT COUNT(m) FROM Member m WHERE m.active = false")
     long countInactiveMembers();
 }

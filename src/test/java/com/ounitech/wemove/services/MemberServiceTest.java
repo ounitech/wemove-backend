@@ -170,14 +170,14 @@ class MemberServiceTest {
         member.setFirstname("jorgen");
         member.setLastname("hoeller");
         member.setEmail("jorgen@gmail.com");
-        member.setActive((byte) 0);
+        member.setActive(false);
         member.setId(1000);
 
         Member activatedMember = new Member();
         activatedMember.setFirstname("jorgen");
         activatedMember.setLastname("hoeller");
         activatedMember.setEmail("jorgen@gmail.com");
-        activatedMember.setActive((byte) 1);
+        activatedMember.setActive(true);
         activatedMember.setId(1000);
 
         //When
@@ -188,7 +188,7 @@ class MemberServiceTest {
 
         //Then
         assertThat(response).isNotNull();
-        assertThat(response.getActive()).isEqualTo((byte) 1);
+        assertThat(response.getActive()).isEqualTo(true);
         assertThat(response.getEmail()).isEqualTo(member.getEmail());
 
         Mockito.verify(memberRepository, Mockito.times(1)).findById(1000);

@@ -31,8 +31,8 @@ public class Subscription {
     @Enumerated(EnumType.STRING)
     private Duration duration;
 
-    @Column(name = "active", nullable = false)
-    private Byte active;
+    @Column(name = "active", nullable = false, columnDefinition = "boolean default 1")
+    private boolean active;
 
     @OneToMany(mappedBy = "subscription")
     private Set<MemberSubscription> memberSubscriptions;
@@ -56,7 +56,7 @@ public class Subscription {
         return this.duration;
     }
 
-    public Byte getActive() {
+    public boolean getActive() {
         return this.active;
     }
 
@@ -80,7 +80,7 @@ public class Subscription {
         this.duration = duration;
     }
 
-    public void setActive(Byte active) {
+    public void setActive(boolean active) {
         this.active = active;
     }
 
