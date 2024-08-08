@@ -25,7 +25,6 @@ class MemberRepositoryTest {
         member1.setFirstname("stephane");
         member1.setLastname("nicoll");
         member1.setEmail("stephanenicoll@gmail.com");
-        member1.setId(1000);
         member1.setActive(false);
 
 
@@ -33,13 +32,13 @@ class MemberRepositoryTest {
     }
 
     @Test
-    void findById() throws Exception {
+    void findById() {
         // When
-        Optional<Member> member = memberRepository.findById(1000);
+        Optional<Member> member = memberRepository.findById(1);
 
         // Then
         assertThat(member).isPresent();
-        assertThat(member.get().getId()).isEqualTo(1000);
+        assertThat(member.get().getId()).isEqualTo(1);
         assertThat(member.get().getFirstname()).isEqualTo("stephane");
         assertThat(member.get().getLastname()).isEqualTo("nicoll");
     }
