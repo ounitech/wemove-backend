@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.TestPropertySource;
 
 import java.util.List;
 import java.util.function.Function;
@@ -13,6 +14,7 @@ import java.util.function.Function;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
+@TestPropertySource(locations = "classpath:application-test.properties")
 class EntryRepositoryTest {
 
     @Autowired
@@ -24,18 +26,18 @@ class EntryRepositoryTest {
     @BeforeEach
     void setUp() {
         jdbcTemplate.execute("""
-                    INSERT INTO member(id, firstname, lastname, email, active) 
+                    INSERT INTO member(id, firstname, lastname, email, active)
                     VALUES (100, 'firstname', 'lastname', 'email', 1);
                 """);
 
         jdbcTemplate.execute("""
-                        INSERT INTO entry(id, memberid, entrytime, leavetime) 
-                        VALUES (1, 100, now(), now()); 
+                        INSERT INTO entry(id, memberid, entrytime, leavetime)
+                        VALUES (1, 100, now(), now());
                 """);
 
         jdbcTemplate.execute("""
-                        INSERT INTO entry(id, memberid, entrytime, leavetime) 
-                        VALUES (2, 100, now(), now()); 
+                        INSERT INTO entry(id, memberid, entrytime, leavetime)
+                        VALUES (2, 100, now(), now());
                 """);
     }
 

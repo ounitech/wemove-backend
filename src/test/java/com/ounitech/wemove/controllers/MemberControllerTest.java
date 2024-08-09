@@ -2,6 +2,8 @@ package com.ounitech.wemove.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ounitech.wemove.models.Member;
+import com.ounitech.wemove.models.MemberSubscription;
+import com.ounitech.wemove.models.Subscription;
 import com.ounitech.wemove.services.MemberService;
 import com.ounitech.wemove.services.MemberSubscriptionService;
 import org.junit.jupiter.api.Test;
@@ -241,6 +243,82 @@ class MemberControllerTest {
         assertThat(response.getContentAsString()).doesNotContain("webb");
         assertThat(response.getContentAsString()).doesNotContain("john");
         assertThat(response.getContentAsString()).doesNotContain("doe");
+    }
+
+
+    @Test
+    void findMemberSubscriptionTest() throws Exception {
+        //Given
+        Member member = new Member();
+        member.setId(1000);
+
+        MemberSubscription memberSubscription = new MemberSubscription();
+        memberSubscription.setId(1000);
+        memberSubscription.setMember(member);
+
+        //When
+        Mockito.when(memberService.findById(1000)).thenReturn(Optional.of(member));
+        Mockito.when(memberSubscriptionService.findMemberSubscription(Mockito.any(Member.class))).thenReturn(Optional.of(memberSubscription));
+
+
+        MockHttpServletResponse response = mockMvc.perform(
+                MockMvcRequestBuilders.get("/api/members/get-member-subscription/1000")).andReturn().getResponse();
+
+        //Then
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    @Test
+    void subscribeTest() throws Exception {
+        //Given
+        Member member = new Member();
+        member.setId(1000);
+
+        Subscription subscription = new Subscription();
+        subscription.setSubscriptionName("GOLD");
+
+        MemberSubscription memberSubscription = new MemberSubscription();
+        memberSubscription.setId(1000);
+        memberSubscription.setMember(member);
+
+        //When
+        Mockito.when(memberService.findById(1000)).thenReturn(Optional.of(member));
+        Mockito.when(memberSubscriptionService.findMemberSubscription(Mockito.any(Member.class))).thenReturn(Optional.empty());
+        Mockito.when(memberSubscriptionService.subscribe(1000, "GOLD")).thenReturn(memberSubscription);
+
+        MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.post("/api/members/subscribe")
+                .param("id", "1000")
+                .param("subscriptionName", "GOLD")).andReturn().getResponse();
+
+        //Then
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    @Test
+    void testSubscribe_InvalidSubscriptionName() throws Exception {
+        MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.post("/api/members/subscribe")
+                .param("id", "1000")
+                .param("subscriptionName", "hgfhgfh")).andReturn().getResponse();
+
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.NOT_FOUND.value());
+
+    }
+
+    @Test
+    void DeleteMemberSubscriptionTest() throws Exception {
+        Member member = new Member();
+        member.setId(1);
+
+        MemberSubscription memberSubscription = new MemberSubscription();
+        memberSubscription.setId(1);
+        memberSubscription.setMember(member);
+
+        Mockito.when(memberService.findById(1)).thenReturn(Optional.of(member));
+        Mockito.when(memberSubscriptionService.findMemberSubscription(member)).thenReturn(Optional.of(memberSubscription));
+
+        MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.delete("/api/members/delete-member-subscription/1")).andReturn().getResponse();
+
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
     }
 }
 
