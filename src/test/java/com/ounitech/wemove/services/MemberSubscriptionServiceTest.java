@@ -88,7 +88,7 @@ class MemberSubscriptionServiceTest {
 
         //When
         Mockito.when(memberRepository.findById(id)).thenReturn(Optional.of(member));
-        Mockito.when(subscriptionRepository.findBysubscriptionName(subscriptionName)).thenReturn(subscription);
+        Mockito.when(subscriptionRepository.findBySubscriptionName(subscriptionName)).thenReturn(Optional.of(subscription));
         Mockito.when(memberSubscriptionRepository.save(Mockito.any(MemberSubscription.class))).thenReturn(memberSubscription);
 
         MemberSubscription response = memberSubscriptionService.subscribe(id, subscriptionName);
