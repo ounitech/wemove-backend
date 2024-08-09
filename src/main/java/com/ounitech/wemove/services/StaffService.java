@@ -21,10 +21,6 @@ public class StaffService {
         return staffRepository.save(staff);
     }
 
-    public Optional<Staff> findById(Integer id) {
-        return staffRepository.findById(id);
-    }
-
     public Staff updateStaff(Integer id, Staff staff) {
         Optional<Staff> staffById = staffRepository.findById(id);
 
@@ -33,14 +29,6 @@ public class StaffService {
         staff1.setLastname(staff.getLastname());
         staff1.setEmail(staff.getEmail());
         return staffRepository.save(staff1);
-    }
-
-    public List<Staff> findAll() {
-        return staffRepository.findAll();
-    }
-
-    public void deleteById(Integer id) {
-        staffRepository.deleteById(id);
     }
 
     public Staff activateStaff(Integer id) {
@@ -59,6 +47,18 @@ public class StaffService {
         staff.setActive(false);
 
         return staffRepository.save(staff);
+    }
+
+    public void deleteById(Integer id) {
+        staffRepository.deleteById(id);
+    }
+
+    public Optional<Staff> findById(Integer id) {
+        return staffRepository.findById(id);
+    }
+
+    public List<Staff> findAll() {
+        return staffRepository.findAll();
     }
 
     public List<Staff> findByFirstName(String firstname) {
