@@ -11,12 +11,12 @@ public interface MemberSubscriptionRepository extends JpaRepository<MemberSubscr
 
     Optional<MemberSubscription> findBymember(Member member);
 
-    @Query("SELECT COUNT(m) FROM MemberSubscription m WHERE m.subscription.subscriptionName = 'GOLD'")
+    @Query("SELECT COUNT(m) FROM MemberSubscription m WHERE m.subscription.name = 'GOLD'")
     long countGoldMembers();
 
-    @Query("SELECT COUNT(m) FROM MemberSubscription m WHERE m.subscription.subscriptionName = 'SILVER'")
+    @Query("SELECT COUNT(m) FROM MemberSubscription m WHERE m.subscription.name = 'SILVER'")
     long countSilverMembers();
 
-    @Query("SELECT COUNT(m) FROM MemberSubscription m WHERE m.subscription.subscriptionName = 'BRONZE'")
+    @Query("SELECT COUNT(m) FROM MemberSubscription m WHERE m.subscription.name = 'BRONZE'")
     long countBronzeMembers();
 }

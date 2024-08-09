@@ -47,12 +47,12 @@ public class MemberSubscriptionService {
 
         member.setActive(true);
 
-        Subscription subscriptionByName = subscriptionRepository.findBySubscriptionName(subscriptionName).orElse(null);
+        Subscription subscriptionByName = subscriptionRepository.findByName(subscriptionName).orElse(null);
 
         MemberSubscription memberSubscription = new MemberSubscription();
         memberSubscription.setSubscription(subscriptionByName);
         memberSubscription.setMember(member);
-        memberSubscription.setPaid(subscriptionByName.getSubscriptionPrice());
+        memberSubscription.setPaid(subscriptionByName.getPrice());
         memberSubscription.setStartDate(LocalDate.from(LocalDateTime.now()));
 
         return memberSubscriptionRepository.save(memberSubscription);

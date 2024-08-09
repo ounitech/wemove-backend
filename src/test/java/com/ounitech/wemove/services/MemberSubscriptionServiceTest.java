@@ -73,8 +73,8 @@ class MemberSubscriptionServiceTest {
         String subscriptionName = "GOLD";
 
         Subscription subscription = new Subscription();
-        subscription.setSubscriptionName(subscriptionName);
-        subscription.setSubscriptionPrice(100);
+        subscription.setName(subscriptionName);
+        subscription.setPrice(100);
 
         Member member = new Member();
         member.setId(id);
@@ -83,12 +83,12 @@ class MemberSubscriptionServiceTest {
         MemberSubscription memberSubscription = new MemberSubscription();
         memberSubscription.setSubscription(subscription);
         memberSubscription.setMember(member);
-        memberSubscription.setPaid(subscription.getSubscriptionPrice());
+        memberSubscription.setPaid(subscription.getPrice());
         memberSubscription.setStartDate(LocalDate.now());
 
         //When
         Mockito.when(memberRepository.findById(id)).thenReturn(Optional.of(member));
-        Mockito.when(subscriptionRepository.findBySubscriptionName(subscriptionName)).thenReturn(Optional.of(subscription));
+        Mockito.when(subscriptionRepository.findByName(subscriptionName)).thenReturn(Optional.of(subscription));
         Mockito.when(memberSubscriptionRepository.save(Mockito.any(MemberSubscription.class))).thenReturn(memberSubscription);
 
         MemberSubscription response = memberSubscriptionService.subscribe(id, subscriptionName);
