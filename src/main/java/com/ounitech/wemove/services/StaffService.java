@@ -62,18 +62,18 @@ public class StaffService {
     }
 
     public List<Staff> findByFirstName(String firstname) {
-        return staffRepository.findByfirstname(firstname);
+        return staffRepository.findByFirstname(firstname);
     }
 
     public List<Staff> findByActiveStaff() {
-        return staffRepository.findByactive(true);
+        return staffRepository.findByActive(true);
     }
 
     public List<Staff> findByInactiveStaff() {
-        return staffRepository.findByactive(false);
+        return staffRepository.findByActive(false);
     }
 
     public Staff findByEmail(String email) {
-        return staffRepository.findByemail(email);
+        return staffRepository.findByEmail(email).orElse(null);
     }
 }

@@ -7,8 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.data.domain.Example;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -66,9 +68,9 @@ class StaffRepositoryTest {
     }
 
     @Test
-    void findByfirstname() {
+    void findByFirstname() {
         // Given // When
-        List<Staff> results = staffRepository.findByfirstname("kevin");
+        List<Staff> results = staffRepository.findByFirstname("kevin");
 
         // Then
         assertThat(results)
@@ -78,9 +80,9 @@ class StaffRepositoryTest {
     }
 
     @Test
-    void findByactive() {
+    void findByActive() {
         // Given // When
-        List<Staff> results = staffRepository.findByactive(true);
+        List<Staff> results = staffRepository.findByActive(true);
 
         // Then
         assertThat(results)
@@ -90,14 +92,43 @@ class StaffRepositoryTest {
     }
 
     @Test
-    void findByemail() {
+    void findByEmail() {
         // Given // When
-        Staff result = staffRepository.findByemail("leila.robinson@gmail.com");
+        Optional<Staff> result = staffRepository.findByEmail("leila.robinson@gmail.com");
 
         // Then
         assertThat(result)
-                .isNotNull()
+                .isNotEmpty()
+                .get()
                 .extracting(Staff::getLastname)
                 .isEqualTo("robinson");
     }
+
+    @Test
+    void findByEmail_unknown() {
+        // Given // When
+        Optional<Staff> result = staffRepository.findByEmail("ghost@gmail.com");
+
+        // Then
+        assertThat(result).isEmpty();
+    }
+
+    @Test
+    void findByExample() {
+        // Given
+        Staff staff = new Staff();
+        staff.setLastname("jones");
+        staff.setActive(true);
+        Example<Staff> example = Example.of(staff);
+
+        // When
+        List<Staff> result = staffRepository.findAll(example);
+
+        // Then
+        assertThat(result)
+                .hasSize(1)
+                .extracting(Staff::getFirstname)
+                .containsExactly("kevin");
+    }
+
 }
