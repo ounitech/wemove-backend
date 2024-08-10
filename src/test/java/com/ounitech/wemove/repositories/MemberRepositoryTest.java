@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,64 +14,52 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @DataJpaTest
-@TestPropertySource(locations = "classpath:application-test.properties")
 class MemberRepositoryTest {
 
     @Autowired
     private MemberRepository memberRepository;
 
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
     @BeforeEach
     void setUp() {
-        Member member1 = new Member();
-        member1.setFirstname("stephane");
-        member1.setLastname("nicoll");
-        member1.setEmail("stephanenicoll@gmail.com");
-        member1.setGender("Male");
-        member1.setActive(false);
 
-        Member member2 = new Member();
-        member2.setFirstname("Mohamed");
-        member2.setLastname("ali");
-        member2.setEmail("Mohamedali@gmail.com");
-        member2.setGender("Male");
-        member2.setActive(false);
+        jdbcTemplate.execute("""
+                    INSERT INTO member(id, firstname, lastname, email,gender, active)
+                    VALUES (1, 'stephane', 'nicoll', 'stephanenicoll@gmail.com','Male', false);
+                """);
+        jdbcTemplate.execute("""
+                    INSERT INTO member(id, firstname, lastname, email,gender, active)
+                    VALUES (2, 'Mohamed', 'ali', 'Mohamedali@gmail.com','Male', false);
+                """);
+        jdbcTemplate.execute("""
+                    INSERT INTO member(id, firstname, lastname, email,gender, active)
+                    VALUES (3, 'Mohamed', 'amine', 'Mohamedamine@gmail.com','Male', true);
+                """);
 
-        Member member3 = new Member();
-        member3.setFirstname("Mohamed");
-        member3.setLastname("amine");
-        member3.setEmail("Mohamedamine@gmail.com");
-        member3.setGender("Male");
-        member3.setActive(true);
-
-        Member member4 = new Member();
-        member4.setFirstname("ines");
-        member4.setLastname("ines");
-        member4.setEmail("ines@gmail.com");
-        member4.setGender("Female");
-        member4.setActive(true);
-
-
-        memberRepository.save(member1);
-        memberRepository.save(member2);
-        memberRepository.save(member3);
-        memberRepository.save(member4);
+        jdbcTemplate.execute("""
+                    INSERT INTO member(id, firstname, lastname, email,gender, active)
+                    VALUES (4, 'ines', 'ines', 'ines@gmail.com','Female', true);
+                """);
     }
 
     @Test
     void findById() {
         // When
         //List<Member> members = memberRepository.findAll();
-        Optional<Member> member = memberRepository.findById(13);
+        Optional<Member> member = memberRepository.findById(1);
 
         // Then
         assertThat(member).isPresent();
-        assertThat(member.get().getId()).isEqualTo(13);
+        assertThat(member.get().getId()).isEqualTo(1);
         assertThat(member.get().getFirstname()).isEqualTo("stephane");
         assertThat(member.get().getLastname()).isEqualTo("nicoll");
     }
 
     @Test
     void findbyFirstnameTest() {
+        //GIVEN
         Member member1 = new Member();
         member1.setFirstname("stephane");
         member1.setLastname("nicoll");
@@ -89,8 +77,11 @@ class MemberRepositoryTest {
         member3.setLastname("amine");
         member3.setEmail("Mohamedamine@gmail.com");
 
+        //WHEN
         List<Member> members = memberRepository.findByFirstname("Mohamed");
 
+
+        //THEN
         assertThat(members.size()).isEqualTo(2);
         assertThat(members.contains(member1)).isFalse();
         assertThat(members.contains(member2)).isTrue();
@@ -131,12 +122,6 @@ class MemberRepositoryTest {
 
     @Test
     void findByEmailTest() {
-        Member member1 = new Member();
-        member1.setFirstname("stephane");
-        member1.setLastname("nicoll");
-        member1.setEmail("stephanenicoll@gmail.com");
-        member1.setActive(false);
-
         Member member = memberRepository.findByEmail("stephanenicoll@gmail.com");
 
         assertThat(member).isNotNull();
