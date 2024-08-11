@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member, Integer> {
 
@@ -13,7 +14,7 @@ public interface MemberRepository extends JpaRepository<Member, Integer> {
 
     List<Member> findByActive(boolean active);
 
-    Member findByEmail(String email);
+    Optional<Member> findByEmail(String email);
 
     long countByGender(String gender);
 

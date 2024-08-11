@@ -70,7 +70,7 @@ class MemberControllerTest {
         Member member2 = new Member();
         member2.setEmail("saad@gmail.com");
 
-        Mockito.when(memberService.findByEmail(any(String.class))).thenReturn(member2);
+        Mockito.when(memberService.findByEmail(any(String.class))).thenReturn(Optional.of(member2));
 
         MockHttpServletResponse response = mockMvc.perform(
                 MockMvcRequestBuilders.post("/api/members/save").contentType(MediaType.APPLICATION_JSON).content(asJsonString(member))).andReturn().getResponse();

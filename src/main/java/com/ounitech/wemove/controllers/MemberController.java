@@ -73,19 +73,21 @@ public class MemberController {
     }
 
     @GetMapping("/findByEmail/{email}")
-    public ResponseEntity<Member> findByEmail(@PathVariable("email") String email) {
-        Member member = memberService.findByEmail(email);
-        if (member == null) {
+    public ResponseEntity<Optional<Member>> findByEmail(@PathVariable("email") String email) {
+        Optional<Member> member = memberService.findByEmail(email);
+        if (member.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(member, HttpStatus.OK);
+        } else if (member.isPresent())
+            return new ResponseEntity<>(member, HttpStatus.OK);
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/save")
     public ResponseEntity<Member> save(@RequestBody Member input) {
         //ensure that the email entered is unique
-        Member member = memberService.findByEmail(input.getEmail());
-        if (member != null) {
+        Optional<Member> member = memberService.findByEmail(input.getEmail());
+        if (member.isPresent()) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 

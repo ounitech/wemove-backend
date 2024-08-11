@@ -74,7 +74,7 @@ public class MemberService {
         return memberRepository.findByActive(false);
     }
 
-    public Member findByEmail(String email) {
+    public Optional<Member> findByEmail(String email) {
         return memberRepository.findByEmail(email);
     }
 
