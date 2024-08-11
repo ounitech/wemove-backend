@@ -1,5 +1,6 @@
 package com.ounitech.wemove.services;
 
+import com.ounitech.wemove.models.Role;
 import com.ounitech.wemove.models.Staff;
 import com.ounitech.wemove.repositories.StaffRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -52,10 +53,43 @@ class StaffServiceTest {
     @Test
     void update() {
         // Given
+        Role managerRole = new Role();
+        managerRole.setRoleName("Manager");
+
+        Integer id = 1;
+        Staff staff = new Staff();
+        staff.setFirstname("firstname");
+        staff.setLastname("lastname");
+        staff.setActive(true);
+        staff.setEmail("email");
+        staff.setPhone("phone");
+        staff.setId(id);
+        staff.setPicture("https://dev.wemove.com/kevin.jones.jpg");
+        staff.setRole(managerRole);
+
+        Staff updatedStaff = new Staff();
+        updatedStaff.setFirstname("updatedfirstname");
+        updatedStaff.setLastname("updatedlastname");
+        updatedStaff.setActive(true);
+        updatedStaff.setEmail("updatedemail");
+        updatedStaff.setPhone("updatedphone");
+        updatedStaff.setId(id);
+        updatedStaff.setPicture("updated_https://dev.wemove.com/kevin.jones.jpg");
+        updatedStaff.setRole(managerRole);
+
+        when(staffRepository.findById(1)).thenReturn(Optional.of(staff));
+        when(staffRepository.save(Mockito.any(Staff.class))).thenReturn(updatedStaff);
 
         // When
+        Staff result = staffService.updateStaff(id, updatedStaff);
 
         // Then
+        assertThat(result).isNotNull();
+        assertThat(result).isEqualTo(updatedStaff);
+        assertThat(result.getRole().getRoleName()).isEqualTo(updatedStaff.getRole().getRoleName());
+
+        Mockito.verify(staffRepository, Mockito.times(1)).findById(1);
+        Mockito.verify(staffRepository, Mockito.times(1)).save(staff);
     }
 
     @Test

@@ -117,11 +117,6 @@ class MemberServiceTest {
         member.setEmail("jorgen@gmail.com");
         member.setId(1000);
 
-        Member newMember = new Member();
-        newMember.setFirstname("cristiano");
-        newMember.setLastname("ronaldo");
-        newMember.setEmail("cristiano@gmail.com");
-
         Member updatedMember = new Member();
         updatedMember.setFirstname("cristiano");
         updatedMember.setLastname("ronaldo");
@@ -130,17 +125,14 @@ class MemberServiceTest {
 
         //When
         Mockito.when(memberRepository.findById(1000)).thenReturn(Optional.of(member));
-        Mockito.when(memberRepository.save(member)).thenReturn(updatedMember);
+        Mockito.when(memberRepository.save(Mockito.any(Member.class))).thenReturn(updatedMember);
 
-        Member response = memberService.updateMember(1000, newMember);
+        Member response = memberService.updateMember(1000, updatedMember);
 
 
         //Then
         assertThat(response).isNotNull();
-        assertThat(response.getFirstname()).isEqualTo(updatedMember.getFirstname());
-        assertThat(response.getLastname()).isEqualTo(updatedMember.getLastname());
-        assertThat(response.getEmail()).isEqualTo(updatedMember.getEmail());
-
+        assertThat(response).isEqualTo(updatedMember);
 
         Mockito.verify(memberRepository, Mockito.times(1)).findById(1000);
         Mockito.verify(memberRepository, Mockito.times(1)).save(member);
