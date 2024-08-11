@@ -4,12 +4,13 @@ import com.ounitech.wemove.models.Staff;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface StaffRepository extends JpaRepository<Staff, Integer> {
 
-    List<Staff> findByfirstname(String firstname);
+    List<Staff> findByFirstname(String firstname);
 
-    List<Staff> findByactive(boolean active);
+    List<Staff> findByActive(boolean active);
 
-    Staff findByemail(String email);
+    Optional<Staff> findByEmail(String email);
 }

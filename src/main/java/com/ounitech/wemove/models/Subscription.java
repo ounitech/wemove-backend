@@ -16,10 +16,10 @@ public class Subscription {
     private Integer id;
 
     @Column(name = "name", nullable = false)
-    private String subscriptionName;
+    private String name;
 
     @Column(name = "price", nullable = false)
-    private int subscriptionPrice;
+    private int price;
 
     public enum Duration {
         daily,
@@ -44,12 +44,12 @@ public class Subscription {
         return this.id;
     }
 
-    public String getSubscriptionName() {
-        return this.subscriptionName;
+    public String getName() {
+        return this.name;
     }
 
-    public int getSubscriptionPrice() {
-        return this.subscriptionPrice;
+    public int getPrice() {
+        return this.price;
     }
 
     public Duration getDuration() {
@@ -68,12 +68,12 @@ public class Subscription {
         this.id = id;
     }
 
-    public void setSubscriptionName(String subscriptionName) {
-        this.subscriptionName = subscriptionName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setSubscriptionPrice(int subscriptionPrice) {
-        this.subscriptionPrice = subscriptionPrice;
+    public void setPrice(int price) {
+        this.price = price;
     }
 
     public void setDuration(Duration duration) {
@@ -99,14 +99,14 @@ public class Subscription {
         }
 
         return new EqualsBuilder()
-                .append(subscriptionName, that.subscriptionName)
+                .append(name, that.name)
                 .isEquals();
     }
 
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-                .append(subscriptionName)
+                .append(name)
                 .toHashCode();
     }
 
@@ -114,8 +114,8 @@ public class Subscription {
     public String toString() {
         return new ToStringBuilder(this)
                 .append("id", id)
-                .append("subscriptionName", subscriptionName)
-                .append("subscriptionPrice", subscriptionPrice)
+                .append("name", name)
+                .append("price", price)
                 .append("duration", duration)
                 .append("active", active)
                 .toString();

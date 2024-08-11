@@ -101,7 +101,7 @@ public class MemberSubscription {
                 .append("id", id)
                 .append("startDate", startDate)
                 .append("paid", paid)
-                .append("subscription", subscription.getSubscriptionName())
+                .append("subscription", subscription.getName())
                 .append("member", member.getEmail())
                 .toString();
     }

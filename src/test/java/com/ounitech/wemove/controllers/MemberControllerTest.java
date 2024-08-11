@@ -275,7 +275,7 @@ class MemberControllerTest {
         member.setId(1000);
 
         Subscription subscription = new Subscription();
-        subscription.setSubscriptionName("GOLD");
+        subscription.setName("GOLD");
 
         MemberSubscription memberSubscription = new MemberSubscription();
         memberSubscription.setId(1000);
