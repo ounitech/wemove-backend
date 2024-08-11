@@ -14,8 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class StaffServiceTest {
 
@@ -88,8 +87,8 @@ class StaffServiceTest {
         assertThat(result).isEqualTo(updatedStaff);
         assertThat(result.getRole().getRoleName()).isEqualTo(updatedStaff.getRole().getRoleName());
 
-        Mockito.verify(staffRepository, Mockito.times(1)).findById(1);
-        Mockito.verify(staffRepository, Mockito.times(1)).save(staff);
+        verify(staffRepository, times(1)).findById(1);
+        verify(staffRepository, times(1)).save(staff);
     }
 
     @Test
@@ -148,7 +147,7 @@ class StaffServiceTest {
         staffService.deleteById(1);
 
         // Then
-        verify(staffRepository, Mockito.times(1))
+        verify(staffRepository, times(1))
                 .deleteById(1);
     }
 

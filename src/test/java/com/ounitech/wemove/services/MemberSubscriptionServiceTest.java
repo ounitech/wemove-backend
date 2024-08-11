@@ -18,6 +18,8 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 
 @Service
@@ -52,9 +54,9 @@ class MemberSubscriptionServiceTest {
         memberSubscription.setId(1000);
         memberSubscription.setMember(member);
 
-        //When
-        Mockito.when(memberSubscriptionRepository.findBymember(member)).thenReturn(Optional.of(memberSubscription));
+        when(memberSubscriptionRepository.findBymember(member)).thenReturn(Optional.of(memberSubscription));
 
+        //When
         Optional<MemberSubscription> response = memberSubscriptionService.findMemberSubscription(member);
 
         //Then
@@ -62,12 +64,11 @@ class MemberSubscriptionServiceTest {
         assertThat(response.get().getId()).isEqualTo(1000);
         assertThat(response.get().getMember().getId()).isEqualTo(999);
 
-
-        Mockito.verify(memberSubscriptionRepository, Mockito.times(1)).findBymember(member);
+        verify(memberSubscriptionRepository, Mockito.times(1)).findBymember(member);
     }
 
     @Test
-    void subscribeTest() throws Exception {
+    void subscribe() {
         //Given
         Integer id = 1000;
         String subscriptionName = "GOLD";
@@ -86,11 +87,11 @@ class MemberSubscriptionServiceTest {
         memberSubscription.setPaid(subscription.getPrice());
         memberSubscription.setStartDate(LocalDate.now());
 
-        //When
-        Mockito.when(memberRepository.findById(id)).thenReturn(Optional.of(member));
-        Mockito.when(subscriptionRepository.findByName(subscriptionName)).thenReturn(Optional.of(subscription));
-        Mockito.when(memberSubscriptionRepository.save(Mockito.any(MemberSubscription.class))).thenReturn(memberSubscription);
+        when(memberRepository.findById(id)).thenReturn(Optional.of(member));
+        when(subscriptionRepository.findByName(subscriptionName)).thenReturn(Optional.of(subscription));
+        when(memberSubscriptionRepository.save(Mockito.any(MemberSubscription.class))).thenReturn(memberSubscription);
 
+        //When
         MemberSubscription response = memberSubscriptionService.subscribe(id, subscriptionName);
 
         //Then
@@ -98,7 +99,6 @@ class MemberSubscriptionServiceTest {
         assertThat(response.getMember()).isEqualTo(member);
         assertThat(response.getSubscription()).isEqualTo(subscription);
         assertThat(response.getMember().getActive()).isEqualTo(true);
-
     }
 
 

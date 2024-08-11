@@ -6,12 +6,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 class StatsServiceTest {
 
@@ -31,10 +29,11 @@ class StatsServiceTest {
 
     @Test
     void getMembersCount() {
-        // Given // When
-        Mockito.when(memberRepository.count()).thenReturn(5L);
-        long membersCount = statsService.getMembersCount();
+        // Given
+        when(memberRepository.count()).thenReturn(5L);
 
+        // When
+        long membersCount = statsService.getMembersCount();
 
         // Then
         assertThat(membersCount).isEqualTo(5);
@@ -43,20 +42,23 @@ class StatsServiceTest {
 
     @Test
     void getActiveMembersCount() {
-        // Given // When
-        Mockito.when(memberRepository.countActiveMembers()).thenReturn(5L);
+        // Given
+        when(memberRepository.countActiveMembers()).thenReturn(5L);
+
+        // When
         long activeMembersCount = statsService.getActiveMembersCount();
 
         // Then
         assertThat(activeMembersCount).isEqualTo(5);
         verify(memberRepository, times(1)).countActiveMembers();
-
     }
 
     @Test
     void getInactiveMembersCount() {
-        // Given // When
-        Mockito.when(memberRepository.countInactiveMembers()).thenReturn(5L);
+        // Given
+        when(memberRepository.countInactiveMembers()).thenReturn(5L);
+
+        // When
         long inactiveMembersCount = statsService.getInactiveMembersCount();
 
         // Then
@@ -66,8 +68,10 @@ class StatsServiceTest {
 
     @Test
     void getGoldMembersCount() {
-        // Given // When
-        Mockito.when(memberSubscriptionRepository.countGoldMembers()).thenReturn(5L);
+        // Given
+        when(memberSubscriptionRepository.countGoldMembers()).thenReturn(5L);
+
+        // When
         long goldMembersCount = statsService.getGoldMembersCount();
 
         // Then
@@ -77,8 +81,10 @@ class StatsServiceTest {
 
     @Test
     void getSilverMembersCount() {
-        // Given // When
-        Mockito.when(memberSubscriptionRepository.countSilverMembers()).thenReturn(5L);
+        // Given
+        when(memberSubscriptionRepository.countSilverMembers()).thenReturn(5L);
+
+        // When
         long silverMembersCount = statsService.getSilverMembersCount();
 
         // Then
@@ -88,8 +94,10 @@ class StatsServiceTest {
 
     @Test
     void getBronzeMembersCount() {
-        // Given // When
-        Mockito.when(memberSubscriptionRepository.countBronzeMembers()).thenReturn(5L);
+        // Given
+        when(memberSubscriptionRepository.countBronzeMembers()).thenReturn(5L);
+
+        // When
         long bronzeMembersCount = statsService.getBronzeMembersCount();
 
         // Then
@@ -99,8 +107,10 @@ class StatsServiceTest {
 
     @Test
     void getMaleMembersCount() {
-        // Given // When
-        Mockito.when(memberRepository.countByGender("male")).thenReturn(5L);
+        // Given
+        when(memberRepository.countByGender("male")).thenReturn(5L);
+
+        // When
         long maleMembersCount = statsService.getMaleMembersCount();
 
         // Then
@@ -110,8 +120,10 @@ class StatsServiceTest {
 
     @Test
     void getFemaleMembersCount() {
-        // Given // When
-        Mockito.when(memberRepository.countByGender("female")).thenReturn(5L);
+        // Given
+        when(memberRepository.countByGender("female")).thenReturn(5L);
+
+        // When
         long femaleMembersCount = statsService.getFemaleMembersCount();
 
         // Then

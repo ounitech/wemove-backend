@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
 
 class MemberServiceTest {
 
@@ -40,8 +41,9 @@ class MemberServiceTest {
         savedMember.setLastname("ali");
         savedMember.setEmail("med@gmail.com");
 
+        when(memberRepository.save(member)).thenReturn(savedMember);
+
         //When
-        Mockito.when(memberRepository.save(member)).thenReturn(savedMember);
         Member response = memberService.save(member);
 
         //Then
@@ -50,7 +52,7 @@ class MemberServiceTest {
         assertThat(response.getEmail()).isEqualTo(member.getEmail());
         assertThat(response.getLastname()).isEqualTo(member.getLastname());
 
-        Mockito.verify(memberRepository, Mockito.times(1)).save(member);
+        verify(memberRepository, times(1)).save(member);
     }
 
     @Test
@@ -61,8 +63,9 @@ class MemberServiceTest {
         member.setLastname("hoeller");
         member.setId(1000);
 
+        when(memberRepository.findById(1000)).thenReturn(Optional.of(member));
+
         // When
-        Mockito.when(memberRepository.findById(1000)).thenReturn(Optional.of(member));
         Optional<Member> response = memberService.findById(1000);
 
         // Then
@@ -70,13 +73,13 @@ class MemberServiceTest {
         assertThat(response.get().getFirstname()).isEqualTo("jorgen");
         assertThat(response.get().getLastname()).isEqualTo("hoeller");
 
-        Mockito.verify(memberRepository, Mockito.times(1)).findById(1000);
+        verify(memberRepository, times(1)).findById(1000);
     }
 
     @Test
     void findById_notFound() {
         //Given
-        Mockito.when(memberRepository.findById(12334))
+        when(memberRepository.findById(12334))
                 .thenReturn(Optional.empty());
 
         // When
@@ -89,23 +92,25 @@ class MemberServiceTest {
     @Test
     void findAllUsers() {
         // Given
-        Member member = new Member();
-        member.setFirstname("jorgen");
-        member.setLastname("hoeller");
+        Member member1 = new Member();
+        member1.setFirstname("jorgen");
+        member1.setLastname("hoeller");
 
         Member member2 = new Member();
         member2.setFirstname("cristiano");
         member2.setLastname("ronaldo");
 
+        when(memberRepository.findAll()).thenReturn(List.of(member1, member2));
+
         //When
-        Mockito.when(memberRepository.findAll()).thenReturn(List.of(member, member2));
         List<Member> result = memberService.findAll();
 
         //Then
-        assertThat(result).isNotNull();
-        assertThat(result.size()).isEqualTo(2);
+        assertThat(result)
+                .isNotNull()
+                .hasSize(2);
 
-        Mockito.verify(memberRepository, Mockito.times(1)).findAll();
+        verify(memberRepository, times(1)).findAll();
     }
 
     @Test
@@ -123,10 +128,10 @@ class MemberServiceTest {
         updatedMember.setEmail("cristiano@gmail.com");
         updatedMember.setId(1000);
 
-        //When
-        Mockito.when(memberRepository.findById(1000)).thenReturn(Optional.of(member));
-        Mockito.when(memberRepository.save(Mockito.any(Member.class))).thenReturn(updatedMember);
+        when(memberRepository.findById(1000)).thenReturn(Optional.of(member));
+        when(memberRepository.save(Mockito.any(Member.class))).thenReturn(updatedMember);
 
+        //When
         Member response = memberService.updateMember(1000, updatedMember);
 
 
@@ -134,9 +139,8 @@ class MemberServiceTest {
         assertThat(response).isNotNull();
         assertThat(response).isEqualTo(updatedMember);
 
-        Mockito.verify(memberRepository, Mockito.times(1)).findById(1000);
-        Mockito.verify(memberRepository, Mockito.times(1)).save(member);
-
+        verify(memberRepository, times(1)).findById(1000);
+        verify(memberRepository, times(1)).save(member);
     }
 
     @Test
@@ -148,11 +152,12 @@ class MemberServiceTest {
         member.setEmail("jorgen@gmail.com");
         member.setId(1000);
 
+        doNothing().when(memberRepository).deleteById(1000);
+
         //When
-        Mockito.doNothing().when(memberRepository).deleteById(1000);
         memberService.deleteById(1000);
 
-        Mockito.verify(memberRepository, Mockito.times(1)).deleteById(1000);
+        verify(memberRepository, times(1)).deleteById(1000);
     }
 
     @Test
@@ -172,10 +177,10 @@ class MemberServiceTest {
         activatedMember.setActive(true);
         activatedMember.setId(1000);
 
-        //When
-        Mockito.when(memberRepository.findById(1000)).thenReturn(Optional.of(member));
-        Mockito.when(memberRepository.save(activatedMember)).thenReturn(activatedMember);
+        when(memberRepository.findById(1000)).thenReturn(Optional.of(member));
+        when(memberRepository.save(activatedMember)).thenReturn(activatedMember);
 
+        //When
         Member response = memberService.activateMember(1000);
 
         //Then
@@ -183,9 +188,8 @@ class MemberServiceTest {
         assertThat(response.getActive()).isEqualTo(true);
         assertThat(response.getEmail()).isEqualTo(member.getEmail());
 
-        Mockito.verify(memberRepository, Mockito.times(1)).findById(1000);
-        Mockito.verify(memberRepository, Mockito.times(1)).save(member);
-
+        verify(memberRepository, times(1)).findById(1000);
+        verify(memberRepository, times(1)).save(member);
     }
 
 }

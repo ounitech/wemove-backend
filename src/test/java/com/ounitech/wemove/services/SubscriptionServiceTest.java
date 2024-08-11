@@ -35,9 +35,9 @@ class SubscriptionServiceTest {
         Subscription saved = new Subscription();
         saved.setId(1);
 
-        // When
         when(subscriptionRepository.save(input)).thenReturn(saved);
 
+        // When
         Subscription result = subscriptionService.save(input);
 
         // Then
@@ -76,8 +76,10 @@ class SubscriptionServiceTest {
         Subscription sub3 = new Subscription();
 
         when(subscriptionRepository.findAll()).thenReturn(List.of(sub1, sub2, sub3));
+
         // When
         List<Subscription> result = subscriptionService.findAll();
+
         // Then
         assertThat(result)
                 .hasSize(3);
