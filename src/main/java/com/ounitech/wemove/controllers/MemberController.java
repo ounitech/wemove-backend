@@ -76,11 +76,9 @@ public class MemberController {
     public ResponseEntity<Optional<Member>> findByEmail(@PathVariable("email") String email) {
         Optional<Member> member = memberService.findByEmail(email);
         if (member.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else if (member.isPresent())
-            return new ResponseEntity<>(member, HttpStatus.OK);
-
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(member, HttpStatus.OK);
     }
 
     @PostMapping("/save")
