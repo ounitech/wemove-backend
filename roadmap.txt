@@ -25,12 +25,12 @@ Using a script : //DONE
   - 75% of active users have a monthly subscription
   - 5% of active user have a daily subscription
   
-Entry
+Entry : // Done
  - list entries
  - create entry
  - find entry by member
  
-Using a script :
+Using a script : // TODO
   - create 2 years of entries for the users
 
 Staff //DONE
