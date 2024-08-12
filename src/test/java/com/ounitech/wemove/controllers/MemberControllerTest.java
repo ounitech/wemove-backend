@@ -47,7 +47,7 @@ class MemberControllerTest {
         member.setLastname("bguir");
         member.setEmail("saad@gmail.com");
 
-        Mockito.when(memberService.findByEmail(any(String.class))).thenReturn(Optional.empty());
+        Mockito.when(memberService.findByEmail(any(String.class))).thenReturn(null);
         Mockito.when(memberService.save(member)).thenReturn(member);
 
         MockHttpServletResponse response = mockMvc.perform(
@@ -70,7 +70,7 @@ class MemberControllerTest {
         Member member2 = new Member();
         member2.setEmail("saad@gmail.com");
 
-        Mockito.when(memberService.findByEmail(any(String.class))).thenReturn(Optional.of(member2));
+        Mockito.when(memberService.findByEmail(any(String.class))).thenReturn(member2);
 
         MockHttpServletResponse response = mockMvc.perform(
                 MockMvcRequestBuilders.post("/api/members/save").contentType(MediaType.APPLICATION_JSON).content(asJsonString(member))).andReturn().getResponse();
@@ -85,7 +85,7 @@ class MemberControllerTest {
         member.setId(1000);
         member.setEmail("saad@gmail.com");
 
-        Mockito.when(memberService.findByEmail(any(String.class))).thenReturn(Optional.empty());
+        Mockito.when(memberService.findByEmail(any(String.class))).thenReturn(null);
 
         // When
         MockHttpServletResponse response = mockMvc.perform(
