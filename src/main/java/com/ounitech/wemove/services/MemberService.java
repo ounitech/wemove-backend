@@ -75,7 +75,7 @@ public class MemberService {
     }
 
     public Member findByEmail(String email) {
-        return memberRepository.findByEmail(email);
+        return memberRepository.findByEmail(email).orElse(null);
     }
 
     public Page<Member> findMembersWithPagination(int offset) {

@@ -122,13 +122,13 @@ class MemberRepositoryTest {
 
     @Test
     void findByEmailTest() {
-        Member member = memberRepository.findByEmail("stephanenicoll@gmail.com");
+        Optional<Member> member = memberRepository.findByEmail("stephanenicoll@gmail.com");
 
         assertThat(member).isNotNull();
-        assertThat(member.getFirstname()).isEqualTo("stephane");
-        assertThat(member.getLastname()).isEqualTo("nicoll");
-        assertThat(member.getEmail()).isEqualTo("stephanenicoll@gmail.com");
-
+        assertThat(member).isPresent();
+        assertThat(member.get().getFirstname()).isEqualTo("stephane");
+        assertThat(member.get().getLastname()).isEqualTo("nicoll");
+        assertThat(member.get().getEmail()).isEqualTo("stephanenicoll@gmail.com");
     }
 
     @Test

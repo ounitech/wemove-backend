@@ -76,7 +76,7 @@ public class MemberController {
     public ResponseEntity<Member> findByEmail(@PathVariable("email") String email) {
         Member member = memberService.findByEmail(email);
         if (member == null) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(member, HttpStatus.OK);
     }
