@@ -1,5 +1,6 @@
 package com.ounitech.wemove.controllers;
 
+import com.ounitech.wemove.models.Staff;
 import com.ounitech.wemove.services.StaffService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,10 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 @WebMvcTest(StaffController.class)
@@ -23,11 +27,14 @@ class StaffControllerTest {
     private StaffService staffService;
 
     @Test
-    void findAllEntries() throws Exception {
+    void findAllStaff() throws Exception {
         // Given
+        when(staffService.findAll())
+                .thenReturn(List.of(new Staff(), new Staff()));
+
         // When
         MockHttpServletResponse response = mockMvc.perform(
-                get("/api/entries/findAll")
+                get("/api/staff")
                         .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().getResponse();
 
