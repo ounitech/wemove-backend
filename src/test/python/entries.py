@@ -41,7 +41,6 @@ def generate_not_very_consistent_entries(userid, start_date, subDuration):
         entry_time = datetime(date.year, date.month, date.day, randomEntryHour, randomEntryMinute)
         leave_time = datetime(date.year, date.month, date.day, randomLeaveHour, randomLeaveMinute)
         myCursor.execute(insert_INTO_entry, (entry_time, leave_time, userid))
-        print(entry_time, leave_time, userid)
         date += timedelta(days=4)
 
 
@@ -57,7 +56,6 @@ def generate_inconsistent_entries(userid, start_date, subDuration):
         entry_time = datetime(date.year, date.month, date.day, randomEntryHour, randomEntryMinute)
         leave_time = datetime(date.year, date.month, date.day, randomLeaveHour, randomLeaveMinute)
         myCursor.execute(insert_INTO_entry, (entry_time, leave_time, userid))
-        print(entry_time, leave_time, userid)
         date += timedelta(days=15)
 
 
