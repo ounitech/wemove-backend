@@ -18,21 +18,15 @@ def generate_consistent_entries(userid, start_date, subDuration):
     date = start_date
     end_date = start_date + timedelta(days=subDuration)
 
-    if subDuration == 0:
-        randomHour = random.randint(8, 20)
-        entry_time = datetime(date.year, date.month, date.day, randomHour, 0)
-        leave_time = datetime(date.year, date.month, date.day, randomHour + 2, 0)
-        myCursor.execute(insert_INTO_entry, (entry_time, leave_time, userid))
-        print(entry_time, leave_time, userid)
-        return
-
     while date <= end_date:
-        if date.weekday() < 5:
-            randomHour = random.randint(8, 20)
-            entry_time = datetime(date.year, date.month, date.day, randomHour, 0)
-            leave_time = datetime(date.year, date.month, date.day, randomHour + 2, 0)
-            myCursor.execute(insert_INTO_entry, (entry_time, leave_time, userid))
-        date += timedelta(days=1)
+        randomEntryHour = random.randint(6, 22)
+        randomEntryMinute = random.randint(0, 59)
+        randomLeaveHour = random.randint(randomEntryHour, 22)
+        randomLeaveMinute = random.randint(0, 59)
+        entry_time = datetime(date.year, date.month, date.day, randomEntryHour, randomEntryMinute)
+        leave_time = datetime(date.year, date.month, date.day, randomLeaveHour, randomLeaveMinute)
+        myCursor.execute(insert_INTO_entry, (entry_time, leave_time, userid))
+        date += timedelta(days=2)  # We assume that a consistent member trains every two days
 
 
 def generate_not_very_consistent_entries(userid, start_date, subDuration):
@@ -40,13 +34,15 @@ def generate_not_very_consistent_entries(userid, start_date, subDuration):
     end_date = start_date + timedelta(days=subDuration)
 
     while date <= end_date:
-        if date.weekday() == random.randint(0, 4):
-            randomHour = random.randint(8, 20)
-            entry_time = datetime(date.year, date.month, date.day, randomHour, 0)
-            leave_time = datetime(date.year, date.month, date.day, randomHour + 2, 0)
-            myCursor.execute(insert_INTO_entry, (entry_time, leave_time, userid))
-            print(entry_time, leave_time, userid)
-        date += timedelta(days=1)
+        randomEntryHour = random.randint(6, 22)
+        randomEntryMinute = random.randint(0, 59)
+        randomLeaveHour = random.randint(randomEntryHour, 22)
+        randomLeaveMinute = random.randint(0, 59)
+        entry_time = datetime(date.year, date.month, date.day, randomEntryHour, randomEntryMinute)
+        leave_time = datetime(date.year, date.month, date.day, randomLeaveHour, randomLeaveMinute)
+        myCursor.execute(insert_INTO_entry, (entry_time, leave_time, userid))
+        print(entry_time, leave_time, userid)
+        date += timedelta(days=4)
 
 
 def generate_inconsistent_entries(userid, start_date, subDuration):
@@ -54,13 +50,15 @@ def generate_inconsistent_entries(userid, start_date, subDuration):
     end_date = start_date + timedelta(days=subDuration)
 
     while date <= end_date:
-        if date.day == random.randint(1, 30):
-            randomHour = random.randint(8, 20)
-            entry_time = datetime(date.year, date.month, date.day, randomHour, 0)
-            leave_time = datetime(date.year, date.month, date.day, randomHour + 2, 0)
-            myCursor.execute(insert_INTO_entry, (entry_time, leave_time, userid))
-            print(entry_time, leave_time, userid)
-        date += timedelta(days=1)
+        randomEntryHour = random.randint(6, 22)
+        randomEntryMinute = random.randint(0, 59)
+        randomLeaveHour = random.randint(randomEntryHour, 22)
+        randomLeaveMinute = random.randint(0, 59)
+        entry_time = datetime(date.year, date.month, date.day, randomEntryHour, randomEntryMinute)
+        leave_time = datetime(date.year, date.month, date.day, randomLeaveHour, randomLeaveMinute)
+        myCursor.execute(insert_INTO_entry, (entry_time, leave_time, userid))
+        print(entry_time, leave_time, userid)
+        date += timedelta(days=15)
 
 
 query = """
