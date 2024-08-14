@@ -2,6 +2,7 @@ package com.ounitech.wemove.services;
 
 import com.ounitech.wemove.models.Entry;
 import com.ounitech.wemove.repositories.EntryRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -93,5 +94,10 @@ class EntryServiceTest {
                 .hasSize(2)
                 .extracting(Entry::getId)
                 .containsExactlyInAnyOrder(1, 2);
+    }
+
+    @Test
+    void hello() {
+        Assertions.fail("hello");
     }
 }
