@@ -2,7 +2,6 @@ import random
 from datetime import datetime, timedelta
 
 import mysql.connector
-import requests
 
 mydb = mysql.connector.connect(
     host="localhost",
@@ -19,10 +18,21 @@ def generate_consistent_entries(userid, start_date, subDuration):
     end_date = start_date + timedelta(days=subDuration)
 
     while date <= end_date:
-        randomEntryHour = random.randint(6, 22)
-        randomEntryMinute = random.randint(0, 59)
-        randomLeaveHour = random.randint(randomEntryHour, 22)
-        randomLeaveMinute = random.randint(0, 59)
+        randomEntryHour = random.randint(6, 21)
+        if randomEntryHour == 21:
+            randomEntryMinute = random.randint(0, 10)
+        else:
+            randomEntryMinute = random.randint(0, 59)
+
+        randomTrainingHours = random.randint(1, 2)
+        randomLeaveHour = randomEntryHour + randomTrainingHours
+
+        if randomLeaveHour >= 22:
+            randomLeaveHour = 22
+            randomLeaveMinute = 0
+        else:
+            randomLeaveMinute = random.randint(0, 59)
+
         entry_time = datetime(date.year, date.month, date.day, randomEntryHour, randomEntryMinute)
         leave_time = datetime(date.year, date.month, date.day, randomLeaveHour, randomLeaveMinute)
         myCursor.execute(insert_INTO_entry, (entry_time, leave_time, userid))
@@ -34,14 +44,26 @@ def generate_not_very_consistent_entries(userid, start_date, subDuration):
     end_date = start_date + timedelta(days=subDuration)
 
     while date <= end_date:
-        randomEntryHour = random.randint(6, 22)
-        randomEntryMinute = random.randint(0, 59)
-        randomLeaveHour = random.randint(randomEntryHour, 22)
-        randomLeaveMinute = random.randint(0, 59)
+        randomEntryHour = random.randint(6, 21)
+        if randomEntryHour == 21:
+            randomEntryMinute = random.randint(0, 10)
+        else:
+            randomEntryMinute = random.randint(0, 59)
+
+        randomTrainingHours = random.randint(1, 2)
+        randomLeaveHour = randomEntryHour + randomTrainingHours
+
+        if randomLeaveHour >= 22:
+            randomLeaveHour = 22
+            randomLeaveMinute = 0
+        else:
+            randomLeaveMinute = random.randint(0, 59)
+
         entry_time = datetime(date.year, date.month, date.day, randomEntryHour, randomEntryMinute)
         leave_time = datetime(date.year, date.month, date.day, randomLeaveHour, randomLeaveMinute)
         myCursor.execute(insert_INTO_entry, (entry_time, leave_time, userid))
-        date += timedelta(days=4)
+        NoTrainingDays = random.randint(3, 10)
+        date += timedelta(days=NoTrainingDays)
 
 
 def generate_inconsistent_entries(userid, start_date, subDuration):
@@ -49,14 +71,26 @@ def generate_inconsistent_entries(userid, start_date, subDuration):
     end_date = start_date + timedelta(days=subDuration)
 
     while date <= end_date:
-        randomEntryHour = random.randint(6, 22)
-        randomEntryMinute = random.randint(0, 59)
-        randomLeaveHour = random.randint(randomEntryHour, 22)
-        randomLeaveMinute = random.randint(0, 59)
+        randomEntryHour = random.randint(6, 21)
+        if randomEntryHour == 21:
+            randomEntryMinute = random.randint(0, 10)
+        else:
+            randomEntryMinute = random.randint(0, 59)
+
+        randomTrainingHours = random.randint(0, 2)
+        randomLeaveHour = randomEntryHour + randomTrainingHours
+
+        if randomLeaveHour >= 22:
+            randomLeaveHour = 22
+            randomLeaveMinute = 0
+        else:
+            randomLeaveMinute = random.randint(0, 59)
+
         entry_time = datetime(date.year, date.month, date.day, randomEntryHour, randomEntryMinute)
         leave_time = datetime(date.year, date.month, date.day, randomLeaveHour, randomLeaveMinute)
         myCursor.execute(insert_INTO_entry, (entry_time, leave_time, userid))
-        date += timedelta(days=15)
+        NoTrainingDays = random.randint(10, 20)
+        date += timedelta(days=NoTrainingDays)
 
 
 query = """
@@ -90,7 +124,6 @@ for row in results:
 total_goldUsers = len(yearlySub)
 consistent_users = int(total_goldUsers * 0.5)
 not_very_consistent_users = int(total_goldUsers * 0.3)
-inconsistent_users = total_goldUsers - consistent_users - not_very_consistent_users
 
 for goldUser in yearlySub:
     userid = goldUser[0]
@@ -107,7 +140,6 @@ for goldUser in yearlySub:
 total_silverUsers = len(monthlySub)
 consistent_users = int(total_silverUsers * 0.5)
 not_very_consistent_users = int(total_silverUsers * 0.3)
-inconsistent_users = total_silverUsers - consistent_users - not_very_consistent_users
 
 for silverUser in monthlySub:
     userid = silverUser[0]
