@@ -6,6 +6,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
+//@EnableAspectJAutoProxy
 public class WeMoveApplication {
     public static void main(String[] args) {
         SpringApplication.run(WeMoveApplication.class, args);
