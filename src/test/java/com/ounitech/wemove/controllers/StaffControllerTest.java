@@ -29,6 +29,9 @@ class StaffControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @MockBean
     private StaffService staffService;
 
@@ -62,8 +65,8 @@ class StaffControllerTest {
         staff.setAddress("address");
         staff.setGender("male");
 
-        Mockito.when(staffService.findByEmail(any(String.class))).thenReturn(null);
-        Mockito.when(staffService.save(any(Staff.class))).thenReturn(staff);
+        when(staffService.findByEmail(any(String.class))).thenReturn(null);
+        when(staffService.save(any(Staff.class))).thenReturn(staff);
 
         MockHttpServletResponse response = mockMvc.perform(
                 post("/api/staff/save").contentType(MediaType.APPLICATION_JSON).content(asJsonString(staff))).andReturn().getResponse();
@@ -72,14 +75,6 @@ class StaffControllerTest {
         assertThat(response.getContentAsString().contains("firstname")).isTrue();
         assertThat(response.getContentAsString().contains("lastname")).isTrue();
         assertThat(response.getContentAsString().contains("email@gmail.com")).isTrue();
-    }
-
-    private static String asJsonString(final Object obj) {
-        try {
-            return new ObjectMapper().writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
     @Test
@@ -99,7 +94,7 @@ class StaffControllerTest {
         Staff staff1 = new Staff();
         staff1.setEmail("email@gmail.com");
 
-        Mockito.when(staffService.findByEmail(any(String.class))).thenReturn(staff1);
+        when(staffService.findByEmail(any(String.class))).thenReturn(staff1);
 
         MockHttpServletResponse response = mockMvc.perform(
                 MockMvcRequestBuilders.post("/api/staff/save").contentType(MediaType.APPLICATION_JSON).content(asJsonString(staff))).andReturn().getResponse();
@@ -116,7 +111,7 @@ class StaffControllerTest {
         staff.setAddress("address");
         staff.setGender("male");
 
-        Mockito.when(staffService.findByEmail(any(String.class))).thenReturn(null);
+        when(staffService.findByEmail(any(String.class))).thenReturn(null);
 
         // When
         MockHttpServletResponse response = mockMvc.perform(
@@ -141,7 +136,7 @@ class StaffControllerTest {
         staff.setAddress("address");
         staff.setGender("male");
 
-        Mockito.when(staffService.findById(7)).thenReturn(Optional.of(staff));
+        when(staffService.findById(7)).thenReturn(Optional.of(staff));
 
         // When
         MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.get("/api/staff/findById/7")).andReturn().getResponse();
@@ -155,7 +150,7 @@ class StaffControllerTest {
     @Test
     void findById_not_found() throws Exception {
         // When
-        Mockito.when(staffService.findById(7)).thenReturn(Optional.empty());
+        when(staffService.findById(7)).thenReturn(Optional.empty());
 
         MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.get("/api/staff/findById/7")).andReturn().getResponse();
 
@@ -178,7 +173,7 @@ class StaffControllerTest {
         staff.setAddress("address");
         staff.setGender("male");
 
-        Mockito.when(staffService.findById(7)).thenReturn(Optional.of(staff));
+        when(staffService.findById(7)).thenReturn(Optional.of(staff));
 
         //When
         MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.delete("/api/staff/7")).andReturn().getResponse();
@@ -214,8 +209,8 @@ class StaffControllerTest {
         staff.setGender("aa");
 
 
-        Mockito.when(staffService.findById(any(Integer.class))).thenReturn(Optional.of(staff2));
-        Mockito.when(staffService.updateStaff(any(Integer.class), any(Staff.class))).thenReturn(staff);
+        when(staffService.findById(any(Integer.class))).thenReturn(Optional.of(staff2));
+        when(staffService.updateStaff(any(Integer.class), any(Staff.class))).thenReturn(staff);
 
         MockHttpServletResponse response = mockMvc.perform(
                 MockMvcRequestBuilders.put("/api/staff/update/4").contentType(MediaType.APPLICATION_JSON).content(asJsonString(staff))).andReturn().getResponse();
@@ -251,12 +246,20 @@ class StaffControllerTest {
         activatedStaff.setAddress("address");
         activatedStaff.setGender("male");
 
-        Mockito.when(staffService.findById(any(Integer.class))).thenReturn(Optional.of(staff));
-        Mockito.when(staffService.activateStaff(1000)).thenReturn(activatedStaff);
+        when(staffService.findById(any(Integer.class))).thenReturn(Optional.of(staff));
+        when(staffService.activateStaff(1000)).thenReturn(activatedStaff);
 
         MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.put("/api/staff/activate/1000"))
                 .andReturn().getResponse();
 
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    private String asJsonString(final Object obj) {
+        try {
+            return objectMapper.writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
