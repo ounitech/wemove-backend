@@ -3,6 +3,7 @@ package com.ounitech.wemove.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -18,15 +19,18 @@ public class Member {
     private Integer id;
 
     @Column(name = "firstname", nullable = false)
+    @Size(min = 3,max = 50)
     @Pattern(regexp = "[a-zA-Z ]+")
     private String firstname;
 
     @Column(name = "lastname", nullable = false)
+    @Size(min = 3,max = 50)
     @Pattern(regexp = "[a-zA-Z ]+")
     private String lastname;
 
     @Column(name = "email", nullable = false, unique = true)
     @Email(regexp = ".+@.+\\..+")
+    @Size(min = 3,max = 150)
     private String email;
 
     @Column(name = "gender")
@@ -34,13 +38,16 @@ public class Member {
     private Gender gender;
 
     @Column(name = "address")
+    @Size(min = 3,max = 150)
     private String address;
 
     @Column(name = "phone")
     @Pattern(regexp = "[0-9- ]+")
+    @Size(min = 3,max = 25)
     private String phone;
 
     @Column(name = "picture")
+    @Size(min = 3,max = 255)
     private String picture;
 
     @Column(name = "active", nullable = false, columnDefinition = "boolean default 0")
