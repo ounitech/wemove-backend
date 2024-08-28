@@ -133,8 +133,8 @@ class MemberRepositoryTest {
 
     @Test
     void countByGenderCountTest() {
-        long countMale = memberRepository.countByGender("Male");
-        long countFemale = memberRepository.countByGender("Female");
+        long countMale = memberRepository.countByGender(Member.Gender.Male);
+        long countFemale = memberRepository.countByGender(Member.Gender.Female);
 
         assertThat(countMale).isEqualTo(3);
         assertThat(countFemale).isEqualTo(1);
