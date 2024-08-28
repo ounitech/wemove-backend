@@ -5,6 +5,7 @@ import com.ounitech.wemove.models.Member;
 import com.ounitech.wemove.models.MemberSubscription;
 import com.ounitech.wemove.services.MemberService;
 import com.ounitech.wemove.services.MemberSubscriptionService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -82,7 +83,7 @@ public class MemberController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Member> save(@RequestBody Member input) {
+    public ResponseEntity<Member> save(@Valid @RequestBody Member input) {
         //ensure that the email entered is unique
         Member member = memberService.findByEmail(input.getEmail());
         if (member != null) {
@@ -105,7 +106,7 @@ public class MemberController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Member> updateMember(@PathVariable("id") Integer id, @RequestBody Member input) {
+    public ResponseEntity<Member> updateMember(@PathVariable("id") Integer id, @Valid @RequestBody Member input) {
         Optional<Member> member = memberService.findById(id);
 
         if (member.isPresent()) {
