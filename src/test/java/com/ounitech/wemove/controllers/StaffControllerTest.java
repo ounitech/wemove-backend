@@ -222,14 +222,14 @@ class StaffControllerTest {
 
         Staff staff2 = new Staff();
         staff.setId(1000);
-        staff.setFirstname("aa");
-        staff.setLastname("aa");
+        staff.setFirstname("aaa");
+        staff.setLastname("aaa");
         staff.setEmail("aa@gmail.com");
-        staff.setPicture("aa");
+        staff.setPicture("aaa");
         staff.setPhone("12121212");
         staff.setActive(true);
         staff.setRole(new Role());
-        staff.setAddress("aa");
+        staff.setAddress("aaa");
         staff.setGender(Staff.Gender.Male);
 
 
