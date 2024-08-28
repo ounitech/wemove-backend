@@ -1,5 +1,6 @@
 package com.ounitech.wemove.repositories;
 
+import com.ounitech.wemove.models.Gender;
 import com.ounitech.wemove.models.Member;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -133,8 +134,8 @@ class MemberRepositoryTest {
 
     @Test
     void countByGenderCountTest() {
-        long countMale = memberRepository.countByGender(Member.Gender.Male);
-        long countFemale = memberRepository.countByGender(Member.Gender.Female);
+        long countMale = memberRepository.countByGender(Gender.Male);
+        long countFemale = memberRepository.countByGender(Gender.Female);
 
         assertThat(countMale).isEqualTo(3);
         assertThat(countFemale).isEqualTo(1);

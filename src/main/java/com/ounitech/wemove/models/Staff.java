@@ -56,11 +56,6 @@ public class Staff {
     @JoinColumn(name = "roleid", referencedColumnName = "id", nullable = false)
     private Role role;
 
-    public enum Gender {
-        Male,
-        Female
-    }
-
     public Staff() {
     }
 
