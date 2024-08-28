@@ -2,6 +2,8 @@ package com.ounitech.wemove.models;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -15,21 +17,26 @@ public class Staff {
     private Integer id;
 
     @Column(name = "firstname", nullable = false)
+    @Pattern(regexp = "[a-zA-Z ]+")
     private String firstname;
 
     @Column(name = "lastname", nullable = false)
+    @Pattern(regexp = "[a-zA-Z ]+")
     private String lastname;
 
     @Column(name = "email", nullable = false, unique = true)
+    @Email(regexp = ".+@.+\\..+")
     private String email;
 
     @Column(name = "gender")
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
     @Column(name = "address", nullable = false)
     private String address;
 
     @Column(name = "phone", nullable = false)
+    @Pattern(regexp = "[0-9- ]+")
     private String phone;
 
     @Column(name = "picture", nullable = false)
@@ -41,6 +48,11 @@ public class Staff {
     @ManyToOne
     @JoinColumn(name = "roleid", referencedColumnName = "id", nullable = false)
     private Role role;
+
+    public enum Gender {
+        Male,
+        Female
+    }
 
     public Staff() {
     }
@@ -61,7 +73,7 @@ public class Staff {
         return this.email;
     }
 
-    public String getGender() {
+    public Gender getGender() {
         return this.gender;
     }
 
@@ -101,7 +113,7 @@ public class Staff {
         this.email = email;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 

@@ -3,6 +3,7 @@ package com.ounitech.wemove.controllers;
 
 import com.ounitech.wemove.models.Staff;
 import com.ounitech.wemove.services.StaffService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -76,7 +77,7 @@ public class StaffController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Staff> save(@RequestBody Staff input) {
+    public ResponseEntity<Staff> save(@RequestBody @Valid Staff input) {
         //ensure that the email entered is unique
         if (staffService.findByEmail(input.getEmail()) != null) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -104,7 +105,7 @@ public class StaffController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Staff> updateStaff(@PathVariable("id") Integer id, @RequestBody Staff input) {
+    public ResponseEntity<Staff> updateStaff(@PathVariable("id") Integer id, @RequestBody @Valid Staff input) {
         Optional<Staff> staff = staffService.findById(id);
 
         if (staff.isPresent()) {

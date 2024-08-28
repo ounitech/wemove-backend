@@ -79,6 +79,22 @@ class MemberControllerTest {
     }
 
     @Test
+    void saveMemberTest_InvalidEmail() throws Exception {
+        Member member = new Member();
+        member.setId(1000);
+        member.setFirstname("firstname");
+        member.setLastname("lastname");
+        member.setEmail("email.com");
+
+        Mockito.when(memberService.findByEmail(any(String.class))).thenReturn(null);
+
+        MockHttpServletResponse response = mockMvc.perform(
+                MockMvcRequestBuilders.post("/api/members/save").contentType(MediaType.APPLICATION_JSON).content(asJsonString(member))).andReturn().getResponse();
+
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
     void saveMemberTest_missing_fields() throws Exception {
         //Given
         Member member = new Member();

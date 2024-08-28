@@ -53,6 +53,7 @@ class StaffControllerTest {
 
     @Test
     void saveStaffTest() throws Exception {
+
         Staff staff = new Staff();
         staff.setId(1000);
         staff.setFirstname("firstname");
@@ -63,7 +64,7 @@ class StaffControllerTest {
         staff.setActive(true);
         staff.setRole(new Role());
         staff.setAddress("address");
-        staff.setGender("male");
+        staff.setGender(Staff.Gender.Male);
 
         when(staffService.findByEmail(any(String.class))).thenReturn(null);
         when(staffService.save(any(Staff.class))).thenReturn(staff);
@@ -89,7 +90,7 @@ class StaffControllerTest {
         staff.setActive(true);
         staff.setRole(new Role());
         staff.setAddress("address");
-        staff.setGender("male");
+        staff.setGender(Staff.Gender.Male);
 
         Staff staff1 = new Staff();
         staff1.setEmail("email@gmail.com");
@@ -103,13 +104,36 @@ class StaffControllerTest {
     }
 
     @Test
+    void saveMemberTest_InvalidPhoneNumber() throws Exception {
+        Staff staff = new Staff();
+        staff.setId(1000);
+        staff.setFirstname("firstname");
+        staff.setLastname("lastname");
+        staff.setEmail("email@gmail.com");
+        staff.setPicture("picture");
+        staff.setPhone("Phone");
+        staff.setActive(true);
+        staff.setRole(new Role());
+        staff.setAddress("address");
+        staff.setGender(Staff.Gender.Male);
+
+        Mockito.when(staffService.findByEmail(any(String.class))).thenReturn(null);
+
+        MockHttpServletResponse response = mockMvc.perform(
+                MockMvcRequestBuilders.post("/api/staff/save").contentType(MediaType.APPLICATION_JSON).content(asJsonString(staff))).andReturn().getResponse();
+
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+    }
+
+
+    @Test
     void saveStaffTest_missing_fields() throws Exception {
         //Given
         Staff staff = new Staff();
         staff.setId(1000);
         staff.setFirstname("firstname");
         staff.setAddress("address");
-        staff.setGender("male");
+        staff.setGender(Staff.Gender.Male);
 
         when(staffService.findByEmail(any(String.class))).thenReturn(null);
 
@@ -134,7 +158,7 @@ class StaffControllerTest {
         staff.setActive(true);
         staff.setRole(new Role());
         staff.setAddress("address");
-        staff.setGender("male");
+        staff.setGender(Staff.Gender.Male);
 
         when(staffService.findById(7)).thenReturn(Optional.of(staff));
 
@@ -171,7 +195,7 @@ class StaffControllerTest {
         staff.setActive(true);
         staff.setRole(new Role());
         staff.setAddress("address");
-        staff.setGender("male");
+        staff.setGender(Staff.Gender.Male);
 
         when(staffService.findById(7)).thenReturn(Optional.of(staff));
 
@@ -194,7 +218,7 @@ class StaffControllerTest {
         staff.setActive(true);
         staff.setRole(new Role());
         staff.setAddress("address");
-        staff.setGender("male");
+        staff.setGender(Staff.Gender.Male);
 
         Staff staff2 = new Staff();
         staff.setId(1000);
@@ -206,7 +230,7 @@ class StaffControllerTest {
         staff.setActive(true);
         staff.setRole(new Role());
         staff.setAddress("aa");
-        staff.setGender("aa");
+        staff.setGender(Staff.Gender.Male);
 
 
         when(staffService.findById(any(Integer.class))).thenReturn(Optional.of(staff2));
@@ -232,7 +256,7 @@ class StaffControllerTest {
         staff.setActive(false);
         staff.setRole(new Role());
         staff.setAddress("address");
-        staff.setGender("male");
+        staff.setGender(Staff.Gender.Male);
 
         Staff activatedStaff = new Staff();
         activatedStaff.setId(1000);
@@ -244,7 +268,7 @@ class StaffControllerTest {
         activatedStaff.setActive(true);
         activatedStaff.setRole(new Role());
         activatedStaff.setAddress("address");
-        activatedStaff.setGender("male");
+        activatedStaff.setGender(Staff.Gender.Female);
 
         when(staffService.findById(any(Integer.class))).thenReturn(Optional.of(staff));
         when(staffService.activateStaff(1000)).thenReturn(activatedStaff);

@@ -1,6 +1,8 @@
 package com.ounitech.wemove.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -16,21 +18,26 @@ public class Member {
     private Integer id;
 
     @Column(name = "firstname", nullable = false)
+    @Pattern(regexp = "[a-zA-Z ]+")
     private String firstname;
 
     @Column(name = "lastname", nullable = false)
+    @Pattern(regexp = "[a-zA-Z ]+")
     private String lastname;
 
     @Column(name = "email", nullable = false, unique = true)
+    @Email(regexp = ".+@.+\\..+")
     private String email;
 
     @Column(name = "gender")
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
     @Column(name = "address")
     private String address;
 
     @Column(name = "phone")
+    @Pattern(regexp = "[0-9- ]+")
     private String phone;
 
     @Column(name = "picture")
@@ -39,12 +46,13 @@ public class Member {
     @Column(name = "active", nullable = false, columnDefinition = "boolean default 0")
     private boolean active;
 
-//    @OneToOne
-//    @JoinColumn(name = "memberSubid", referencedColumnName = "id")
-//    private MemberSubscription memberSubscription;
-
     @OneToMany(mappedBy = "member")
     private Set<Entry> entries;
+
+    public enum Gender {
+        Male,
+        Female
+    }
 
     public Member() {
     }
@@ -65,7 +73,7 @@ public class Member {
         return this.email;
     }
 
-    public String getGender() {
+    public Gender getGender() {
         return this.gender;
     }
 
@@ -105,7 +113,7 @@ public class Member {
         this.email = email;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 
