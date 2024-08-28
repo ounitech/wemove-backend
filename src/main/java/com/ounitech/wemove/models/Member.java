@@ -56,11 +56,6 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private Set<Entry> entries;
 
-    public enum Gender {
-        Male,
-        Female
-    }
-
     public Member() {
     }
 

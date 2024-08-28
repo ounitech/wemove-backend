@@ -64,7 +64,7 @@ class StaffControllerTest {
         staff.setActive(true);
         staff.setRole(new Role());
         staff.setAddress("address");
-        staff.setGender(Staff.Gender.Male);
+        staff.setGender(Gender.Male);
 
         when(staffService.findByEmail(any(String.class))).thenReturn(null);
         when(staffService.save(any(Staff.class))).thenReturn(staff);
@@ -90,7 +90,7 @@ class StaffControllerTest {
         staff.setActive(true);
         staff.setRole(new Role());
         staff.setAddress("address");
-        staff.setGender(Staff.Gender.Male);
+        staff.setGender(Gender.Male);
 
         Staff staff1 = new Staff();
         staff1.setEmail("email@gmail.com");
@@ -115,7 +115,7 @@ class StaffControllerTest {
         staff.setActive(true);
         staff.setRole(new Role());
         staff.setAddress("address");
-        staff.setGender(Staff.Gender.Male);
+        staff.setGender(Gender.Male);
 
         Mockito.when(staffService.findByEmail(any(String.class))).thenReturn(null);
 
@@ -133,7 +133,7 @@ class StaffControllerTest {
         staff.setId(1000);
         staff.setFirstname("firstname");
         staff.setAddress("address");
-        staff.setGender(Staff.Gender.Male);
+        staff.setGender(Gender.Male);
 
         when(staffService.findByEmail(any(String.class))).thenReturn(null);
 
@@ -158,7 +158,7 @@ class StaffControllerTest {
         staff.setActive(true);
         staff.setRole(new Role());
         staff.setAddress("address");
-        staff.setGender(Staff.Gender.Male);
+        staff.setGender(Gender.Male);
 
         when(staffService.findById(7)).thenReturn(Optional.of(staff));
 
@@ -195,7 +195,7 @@ class StaffControllerTest {
         staff.setActive(true);
         staff.setRole(new Role());
         staff.setAddress("address");
-        staff.setGender(Staff.Gender.Male);
+        staff.setGender(Gender.Male);
 
         when(staffService.findById(7)).thenReturn(Optional.of(staff));
 
@@ -218,7 +218,7 @@ class StaffControllerTest {
         staff.setActive(true);
         staff.setRole(new Role());
         staff.setAddress("address");
-        staff.setGender(Staff.Gender.Male);
+        staff.setGender(Gender.Male);
 
         Staff staff2 = new Staff();
         staff.setId(1000);
@@ -230,7 +230,7 @@ class StaffControllerTest {
         staff.setActive(true);
         staff.setRole(new Role());
         staff.setAddress("aa");
-        staff.setGender(Staff.Gender.Male);
+        staff.setGender(Gender.Male);
 
 
         when(staffService.findById(any(Integer.class))).thenReturn(Optional.of(staff2));
@@ -256,7 +256,7 @@ class StaffControllerTest {
         staff.setActive(false);
         staff.setRole(new Role());
         staff.setAddress("address");
-        staff.setGender(Staff.Gender.Male);
+        staff.setGender(Gender.Male);
 
         Staff activatedStaff = new Staff();
         activatedStaff.setId(1000);
@@ -268,7 +268,7 @@ class StaffControllerTest {
         activatedStaff.setActive(true);
         activatedStaff.setRole(new Role());
         activatedStaff.setAddress("address");
-        activatedStaff.setGender(Staff.Gender.Female);
+        activatedStaff.setGender(Gender.Female);
 
         when(staffService.findById(any(Integer.class))).thenReturn(Optional.of(staff));
         when(staffService.activateStaff(1000)).thenReturn(activatedStaff);
