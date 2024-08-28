@@ -60,7 +60,7 @@ class StaffControllerTest {
         staff.setLastname("lastname");
         staff.setEmail("email@gmail.com");
         staff.setPicture("picture");
-        staff.setPhone("phone");
+        staff.setPhone("12121212");
         staff.setActive(true);
         staff.setRole(new Role());
         staff.setAddress("address");
@@ -86,7 +86,7 @@ class StaffControllerTest {
         staff.setLastname("lastname");
         staff.setEmail("email@gmail.com");
         staff.setPicture("picture");
-        staff.setPhone("phone");
+        staff.setPhone("12121212");
         staff.setActive(true);
         staff.setRole(new Role());
         staff.setAddress("address");
@@ -111,7 +111,7 @@ class StaffControllerTest {
         staff.setLastname("lastname");
         staff.setEmail("email@gmail.com");
         staff.setPicture("picture");
-        staff.setPhone("Phone");
+        staff.setPhone("phone");
         staff.setActive(true);
         staff.setRole(new Role());
         staff.setAddress("address");
@@ -154,7 +154,7 @@ class StaffControllerTest {
         staff.setLastname("lastname");
         staff.setEmail("email@gmail.com");
         staff.setPicture("picture");
-        staff.setPhone("phone");
+        staff.setPhone("12121212");
         staff.setActive(true);
         staff.setRole(new Role());
         staff.setAddress("address");
@@ -191,7 +191,7 @@ class StaffControllerTest {
         staff.setLastname("lastname");
         staff.setEmail("email@gmail.com");
         staff.setPicture("picture");
-        staff.setPhone("phone");
+        staff.setPhone("12121212");
         staff.setActive(true);
         staff.setRole(new Role());
         staff.setAddress("address");
@@ -214,7 +214,7 @@ class StaffControllerTest {
         staff.setLastname("lastname");
         staff.setEmail("email@gmail.com");
         staff.setPicture("picture");
-        staff.setPhone("phone");
+        staff.setPhone("12121212");
         staff.setActive(true);
         staff.setRole(new Role());
         staff.setAddress("address");
@@ -226,7 +226,7 @@ class StaffControllerTest {
         staff.setLastname("aa");
         staff.setEmail("aa@gmail.com");
         staff.setPicture("aa");
-        staff.setPhone("aa");
+        staff.setPhone("12121212");
         staff.setActive(true);
         staff.setRole(new Role());
         staff.setAddress("aa");
@@ -252,7 +252,7 @@ class StaffControllerTest {
         staff.setLastname("lastname");
         staff.setEmail("email@gmail.com");
         staff.setPicture("picture");
-        staff.setPhone("phone");
+        staff.setPhone("12121212");
         staff.setActive(false);
         staff.setRole(new Role());
         staff.setAddress("address");
@@ -264,7 +264,7 @@ class StaffControllerTest {
         activatedStaff.setLastname("lastname");
         activatedStaff.setEmail("email@gmail.com");
         activatedStaff.setPicture("picture");
-        activatedStaff.setPhone("phone");
+        activatedStaff.setPhone("12121212");
         activatedStaff.setActive(true);
         activatedStaff.setRole(new Role());
         activatedStaff.setAddress("address");
