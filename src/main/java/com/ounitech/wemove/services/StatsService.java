@@ -1,5 +1,6 @@
 package com.ounitech.wemove.services;
 
+import com.ounitech.wemove.models.Member;
 import com.ounitech.wemove.repositories.MemberRepository;
 import com.ounitech.wemove.repositories.MemberSubscriptionRepository;
 import org.springframework.stereotype.Service;
@@ -41,10 +42,10 @@ public class StatsService {
     }
 
     public long getMaleMembersCount() {
-        return memberRepository.countByGender("male");
+        return memberRepository.countByGender(Member.Gender.Male);
     }
 
     public long getFemaleMembersCount() {
-        return memberRepository.countByGender("female");
+        return memberRepository.countByGender(Member.Gender.Female);
     }
 }

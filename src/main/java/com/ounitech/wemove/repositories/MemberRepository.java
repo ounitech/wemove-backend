@@ -16,7 +16,7 @@ public interface MemberRepository extends JpaRepository<Member, Integer> {
 
     Optional<Member> findByEmail(String email);
 
-    long countByGender(String gender);
+    long countByGender(Member.Gender gender);
 
     @Query("SELECT COUNT(m) FROM Member m WHERE m.active = true")
     long countActiveMembers();
