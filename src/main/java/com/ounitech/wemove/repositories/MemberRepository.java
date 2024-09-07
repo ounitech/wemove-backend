@@ -1,6 +1,7 @@
 package com.ounitech.wemove.repositories;
 
 
+import com.ounitech.wemove.models.Gender;
 import com.ounitech.wemove.models.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,7 +17,7 @@ public interface MemberRepository extends JpaRepository<Member, Integer> {
 
     Optional<Member> findByEmail(String email);
 
-    long countByGender(Member.Gender gender);
+    long countByGender(Gender gender);
 
     @Query("SELECT COUNT(m) FROM Member m WHERE m.active = true")
     long countActiveMembers();
