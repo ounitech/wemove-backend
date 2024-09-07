@@ -1,6 +1,6 @@
 package com.ounitech.wemove.services;
 
-import com.ounitech.wemove.models.Member;
+import com.ounitech.wemove.models.Gender;
 import com.ounitech.wemove.repositories.MemberRepository;
 import com.ounitech.wemove.repositories.MemberSubscriptionRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -109,26 +109,26 @@ class StatsServiceTest {
     @Test
     void getMaleMembersCount() {
         // Given
-        when(memberRepository.countByGender(Member.Gender.Male)).thenReturn(5L);
+        when(memberRepository.countByGender(Gender.Male)).thenReturn(5L);
 
         // When
         long maleMembersCount = statsService.getMaleMembersCount();
 
         // Then
         assertThat(maleMembersCount).isEqualTo(5);
-        verify(memberRepository, times(1)).countByGender(Member.Gender.Male);
+        verify(memberRepository, times(1)).countByGender(Gender.Male);
     }
 
     @Test
     void getFemaleMembersCount() {
         // Given
-        when(memberRepository.countByGender(Member.Gender.Female)).thenReturn(5L);
+        when(memberRepository.countByGender(Gender.Female)).thenReturn(5L);
 
         // When
         long femaleMembersCount = statsService.getFemaleMembersCount();
 
         // Then
         assertThat(femaleMembersCount).isEqualTo(5);
-        verify(memberRepository, times(1)).countByGender(Member.Gender.Female);
+        verify(memberRepository, times(1)).countByGender(Gender.Female);
     }
 }
