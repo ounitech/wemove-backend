@@ -19,19 +19,19 @@ public class EntryController {
         this.entryService = entryService;
     }
 
-    @GetMapping("/findAll")
+    @GetMapping()
     public ResponseEntity<List<Entry>> findAllEntries() {
         List<Entry> entries = entryService.findAllEntries();
         return new ResponseEntity<>(entries, HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping()
     public ResponseEntity<Entry> createEntry(@RequestBody Entry input) {
         Entry savedEntry = entryService.createEntry(input);
         return new ResponseEntity<>(savedEntry, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{memberId}")
+    @GetMapping("/member/{memberId}")
     public ResponseEntity<List<Entry>> findEntriesByMember(@PathVariable Integer memberId) {
         List<Entry> entries = entryService.findEntriesByMember(memberId);
         return new ResponseEntity<>(entries, HttpStatus.OK);
