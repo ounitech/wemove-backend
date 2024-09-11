@@ -1,7 +1,9 @@
 package com.ounitech.wemove.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ounitech.wemove.models.*;
+import com.ounitech.wemove.models.Gender;
+import com.ounitech.wemove.models.Role;
+import com.ounitech.wemove.models.Staff;
 import com.ounitech.wemove.services.StaffService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
