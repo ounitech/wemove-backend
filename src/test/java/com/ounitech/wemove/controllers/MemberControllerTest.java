@@ -1,6 +1,7 @@
 package com.ounitech.wemove.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ounitech.wemove.Validator.MemberValidator;
 import com.ounitech.wemove.models.Member;
 import com.ounitech.wemove.models.MemberSubscription;
 import com.ounitech.wemove.models.Subscription;
@@ -18,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.validation.Errors;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,6 +28,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.*;
 
 @WebMvcTest(MemberController.class)
 class MemberControllerTest {
@@ -39,16 +42,21 @@ class MemberControllerTest {
     @MockBean
     private MemberSubscriptionService memberSubscriptionService;
 
+    @MockBean
+    private MemberValidator memberValidator;
+
     @Test
     void saveMemberTest() throws Exception {
         Member member = new Member();
         member.setId(1000);
         member.setFirstname("saad");
         member.setLastname("bguir");
-        member.setEmail("saad@gmail.com");
+        member.setEmail("sa@gmail.com");
 
-        Mockito.when(memberService.findByEmail(any(String.class))).thenReturn(null);
-        Mockito.when(memberService.save(member)).thenReturn(member);
+        when(memberService.findByEmail(any(String.class))).thenReturn(null);
+        when(memberService.save(member)).thenReturn(member);
+        doNothing().when(memberValidator).validate(any(Member.class), any(Errors.class));
+
 
         MockHttpServletResponse response = mockMvc.perform(
                 MockMvcRequestBuilders.post("/api/members/save").contentType(MediaType.APPLICATION_JSON).content(asJsonString(member))).andReturn().getResponse();
@@ -56,7 +64,7 @@ class MemberControllerTest {
         assertThat(response.getStatus()).isEqualTo(HttpStatus.CREATED.value());
         assertThat(response.getContentAsString().contains("saad")).isTrue();
         assertThat(response.getContentAsString().contains("bguir")).isTrue();
-        assertThat(response.getContentAsString().contains("saad@gmail.com")).isTrue();
+        assertThat(response.getContentAsString().contains("sa@gmail.com")).isTrue();
     }
 
     @Test
@@ -70,7 +78,7 @@ class MemberControllerTest {
         Member member2 = new Member();
         member2.setEmail("saad@gmail.com");
 
-        Mockito.when(memberService.findByEmail(any(String.class))).thenReturn(member2);
+        when(memberService.findByEmail(any(String.class))).thenReturn(member2);
 
         MockHttpServletResponse response = mockMvc.perform(
                 MockMvcRequestBuilders.post("/api/members/save").contentType(MediaType.APPLICATION_JSON).content(asJsonString(member))).andReturn().getResponse();
@@ -86,7 +94,13 @@ class MemberControllerTest {
         member.setLastname("lastname");
         member.setEmail("email.com");
 
-        Mockito.when(memberService.findByEmail(any(String.class))).thenReturn(null);
+        when(memberService.findByEmail(any(String.class))).thenReturn(null);
+
+        doAnswer(invocation -> {
+            Errors errors = invocation.getArgument(1);
+            errors.rejectValue("email", "not a well-formed email address");
+            return null;
+        }).when(memberValidator).validate(any(Member.class), any(Errors.class));
 
         MockHttpServletResponse response = mockMvc.perform(
                 MockMvcRequestBuilders.post("/api/members/save").contentType(MediaType.APPLICATION_JSON).content(asJsonString(member))).andReturn().getResponse();
@@ -101,7 +115,40 @@ class MemberControllerTest {
         member.setId(1000);
         member.setEmail("saad@gmail.com");
 
-        Mockito.when(memberService.findByEmail(any(String.class))).thenReturn(null);
+        when(memberService.findByEmail(any(String.class))).thenReturn(null);
+
+        doAnswer(invocation -> {
+            Errors errors = invocation.getArgument(1);
+            errors.rejectValue("firstname", "firstname is required");
+            errors.rejectValue("lastname", "lastname is required");
+            errors.rejectValue("email", "email is required");
+            return null;
+        }).when(memberValidator).validate(any(Member.class), any(Errors.class));
+
+        // When
+        MockHttpServletResponse response = mockMvc.perform(
+                MockMvcRequestBuilders.post("/api/members/save").contentType(MediaType.APPLICATION_JSON).content(asJsonString(member))).andReturn().getResponse();
+
+        // Then
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    void saveMemberTest_Invalid_firstname() throws Exception {
+        //Given
+        Member member = new Member();
+        member.setId(1000);
+        member.setFirstname("mo");
+        member.setLastname("salah");
+        member.setEmail("mo@gmail.com");
+
+        when(memberService.findByEmail(any(String.class))).thenReturn(null);
+
+        doAnswer(invocation -> {
+            Errors errors = invocation.getArgument(1);
+            errors.rejectValue("firstname", "must contain only alphabetic characters and spaces");
+            return null;
+        }).when(memberValidator).validate(any(Member.class), any(Errors.class));
 
         // When
         MockHttpServletResponse response = mockMvc.perform(
@@ -118,7 +165,7 @@ class MemberControllerTest {
         member.setFirstname("phil");
         member.setLastname("webb");
 
-        Mockito.when(memberService.findById(7)).thenReturn(Optional.of(member));
+        when(memberService.findById(7)).thenReturn(Optional.of(member));
 
         // When
         MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.get("/api/members/findById/7")).andReturn().getResponse();
@@ -132,7 +179,7 @@ class MemberControllerTest {
     @Test
     void findById_not_found() throws Exception {
         // When
-        Mockito.when(memberService.findById(7)).thenReturn(Optional.empty());
+        when(memberService.findById(7)).thenReturn(Optional.empty());
         MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.get("/api/members/findById/7")).andReturn().getResponse();
 
         // Then
@@ -146,7 +193,7 @@ class MemberControllerTest {
         member.setFirstname("phil");
         member.setLastname("webb");
 
-        Mockito.when(memberService.findById(7)).thenReturn(Optional.of(member));
+        when(memberService.findById(7)).thenReturn(Optional.of(member));
 
         //When
         MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.delete("/api/members/7")).andReturn().getResponse();
@@ -168,8 +215,8 @@ class MemberControllerTest {
         member1.setEmail("aaaaa");
 
 
-        Mockito.when(memberService.findById(any(Integer.class))).thenReturn(Optional.of(member1));
-        Mockito.when(memberService.updateMember(any(Integer.class), any(Member.class))).thenReturn(member);
+        when(memberService.findById(any(Integer.class))).thenReturn(Optional.of(member1));
+        when(memberService.updateMember(any(Integer.class), any(Member.class))).thenReturn(member);
 
         MockHttpServletResponse response = mockMvc.perform(
                 MockMvcRequestBuilders.put("/api/members/update/4").contentType(MediaType.APPLICATION_JSON).content(asJsonString(member))).andReturn().getResponse();
@@ -203,8 +250,8 @@ class MemberControllerTest {
         member.setActive(true);
         member.setId(1000);
 
-        Mockito.when(memberService.findById(any(Integer.class))).thenReturn(Optional.of(member));
-        Mockito.when(memberService.activateMember(1000)).thenReturn(activatedMember);
+        when(memberService.findById(any(Integer.class))).thenReturn(Optional.of(member));
+        when(memberService.activateMember(1000)).thenReturn(activatedMember);
 
         MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.put("/api/members/activate/1000"))
                 .andReturn().getResponse();
@@ -228,7 +275,7 @@ class MemberControllerTest {
         List<Member> members = Arrays.asList(member1, member2);
         Page<Member> memberPage = new PageImpl<>(members);
 
-        Mockito.when(memberService.findMembersWithPagination(anyInt())).thenReturn(memberPage);
+        when(memberService.findMembersWithPagination(anyInt())).thenReturn(memberPage);
 
         // When
         MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.get("/api/members/page/1"))
@@ -247,7 +294,7 @@ class MemberControllerTest {
         // Given
         Page<Member> emptyPage = Page.empty();
 
-        Mockito.when(memberService.findMembersWithPagination(anyInt())).thenReturn(emptyPage);
+        when(memberService.findMembersWithPagination(anyInt())).thenReturn(emptyPage);
 
         // When
         MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.get("/api/members/page/1"))
@@ -273,8 +320,8 @@ class MemberControllerTest {
         memberSubscription.setMember(member);
 
         //When
-        Mockito.when(memberService.findById(1000)).thenReturn(Optional.of(member));
-        Mockito.when(memberSubscriptionService.findMemberSubscription(Mockito.any(Member.class))).thenReturn(Optional.of(memberSubscription));
+        when(memberService.findById(1000)).thenReturn(Optional.of(member));
+        when(memberSubscriptionService.findMemberSubscription(Mockito.any(Member.class))).thenReturn(Optional.of(memberSubscription));
 
 
         MockHttpServletResponse response = mockMvc.perform(
@@ -298,9 +345,9 @@ class MemberControllerTest {
         memberSubscription.setMember(member);
 
         //When
-        Mockito.when(memberService.findById(1000)).thenReturn(Optional.of(member));
-        Mockito.when(memberSubscriptionService.findMemberSubscription(Mockito.any(Member.class))).thenReturn(Optional.empty());
-        Mockito.when(memberSubscriptionService.subscribe(1000, "GOLD")).thenReturn(memberSubscription);
+        when(memberService.findById(1000)).thenReturn(Optional.of(member));
+        when(memberSubscriptionService.findMemberSubscription(Mockito.any(Member.class))).thenReturn(Optional.empty());
+        when(memberSubscriptionService.subscribe(1000, "GOLD")).thenReturn(memberSubscription);
 
         MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.post("/api/members/subscribe")
                 .param("id", "1000")
@@ -329,8 +376,8 @@ class MemberControllerTest {
         memberSubscription.setId(1);
         memberSubscription.setMember(member);
 
-        Mockito.when(memberService.findById(1)).thenReturn(Optional.of(member));
-        Mockito.when(memberSubscriptionService.findMemberSubscription(member)).thenReturn(Optional.of(memberSubscription));
+        when(memberService.findById(1)).thenReturn(Optional.of(member));
+        when(memberSubscriptionService.findMemberSubscription(member)).thenReturn(Optional.of(memberSubscription));
 
         MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.delete("/api/members/delete-member-subscription/1")).andReturn().getResponse();
 
