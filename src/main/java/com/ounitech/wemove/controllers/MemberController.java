@@ -6,6 +6,7 @@ import com.ounitech.wemove.models.Member;
 import com.ounitech.wemove.models.MemberSubscription;
 import com.ounitech.wemove.services.MemberService;
 import com.ounitech.wemove.services.MemberSubscriptionService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

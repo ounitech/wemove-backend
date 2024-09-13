@@ -30,7 +30,7 @@ Entry : // Done
  - create entry
  - find entry by member
  
-Using a script : // TODO
+Using a script : // Done
   - create 2 years of entries for the users
 
 Staff //DONE
