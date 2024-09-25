@@ -1,6 +1,7 @@
 package com.ounitech.wemove.controllers;
 
 
+import com.ounitech.wemove.Validator.MemberValidator;
 import com.ounitech.wemove.models.Member;
 import com.ounitech.wemove.models.MemberSubscription;
 import com.ounitech.wemove.services.MemberService;
@@ -9,6 +10,8 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,9 +25,12 @@ public class MemberController {
     private final MemberService memberService;
     private final MemberSubscriptionService memberSubscriptionService;
 
-    public MemberController(MemberService memberService, MemberSubscriptionService memberSubscriptionService) {
+    private final MemberValidator memberValidator;
+
+    public MemberController(MemberService memberService, MemberSubscriptionService memberSubscriptionService, MemberValidator memberValidator) {
         this.memberService = memberService;
         this.memberSubscriptionService = memberSubscriptionService;
+        this.memberValidator = memberValidator;
     }
 
     @GetMapping("/findById/{id}")
@@ -83,44 +89,42 @@ public class MemberController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Member> save(@Valid @RequestBody Member input) {
+    public ResponseEntity<Member> save(@RequestBody Member input) {
+        Errors errors = new BeanPropertyBindingResult(input, "input");
+        memberValidator.validate(input, errors);
+
+        if (errors.hasErrors()) {
+            int errorsCount = errors.getErrorCount();
+            for (int i = 0; i < errorsCount; i++) {
+                System.out.println(errors.getAllErrors().get(i));
+            }
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         //ensure that the email entered is unique
         Member member = memberService.findByEmail(input.getEmail());
         if (member != null) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-
-        if (input.getEmail() == null
-                || input.getFirstname() == null
-                || input.getLastname() == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        if (input.getEmail().isEmpty()
-                || input.getFirstname().isEmpty()
-                || input.getLastname().isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
         Member savedMember = memberService.save(input);
         return new ResponseEntity<>(savedMember, HttpStatus.CREATED);
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Member> updateMember(@PathVariable("id") Integer id, @Valid @RequestBody Member input) {
+    public ResponseEntity<Member> updateMember(@PathVariable("id") Integer id, @RequestBody Member input) {
+        Errors errors = new BeanPropertyBindingResult(input, "input");
+        memberValidator.validate(input, errors);
+
+        if (errors.hasErrors()) {
+            int errorsCount = errors.getErrorCount();
+            for (int i = 0; i < errorsCount; i++) {
+                System.out.println(errors.getAllErrors().get(i));
+            }
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
         Optional<Member> member = memberService.findById(id);
 
         if (member.isPresent()) {
-            if (input.getEmail() == null
-                    || input.getFirstname() == null
-                    || input.getLastname() == null) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-            if (input.getEmail().isEmpty()
-                    || input.getFirstname().isEmpty()
-                    || input.getLastname().isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-
             Member updatedMember = memberService.updateMember(id, input);
             return new ResponseEntity<>(updatedMember, HttpStatus.OK);
         }
