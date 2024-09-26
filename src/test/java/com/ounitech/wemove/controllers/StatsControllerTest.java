@@ -1,5 +1,6 @@
 package com.ounitech.wemove.controllers;
 
+import com.ounitech.wemove.models.StatSummary;
 import com.ounitech.wemove.services.StatsService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,73 +23,18 @@ class StatsControllerTest {
     private StatsService statsService;
 
     @Test
-    void testGetMembersCount() throws Exception {
-        when(statsService.getMembersCount()).thenReturn(50L);
+    void testFindStatSummary() throws Exception {
+        StatSummary statSummary = new StatSummary();
+        statSummary.setTotalMemberCount(50);
+        statSummary.setActiveMemberCount(45);
+        statSummary.setInactiveMemberCount(5);
+        statSummary.setMaleMemberCount(30);
+        statSummary.setFemaleMemberCount(20);
 
-        mockMvc.perform(get("/api/stats/members/count"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("50"));
-    }
+        when(statsService.findStatSummary())
+                .thenReturn(statSummary);
 
-    @Test
-    void testGetActiveMembersCount() throws Exception {
-        when(statsService.getActiveMembersCount()).thenReturn(50L);
-
-        mockMvc.perform(get("/api/stats/active-members/count"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("50"));
-    }
-
-    @Test
-    void testGetInactiveMembersCount() throws Exception {
-        when(statsService.getInactiveMembersCount()).thenReturn(50L);
-
-        mockMvc.perform(get("/api/stats/inactive-members/count"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("50"));
-    }
-
-    @Test
-    void testGetGoldMembersCount() throws Exception {
-        when(statsService.getGoldMembersCount()).thenReturn(50L);
-
-        mockMvc.perform(get("/api/stats/GOLD-subscriptions/count"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("50"));
-    }
-
-    @Test
-    void testGetSilverMembersCount() throws Exception {
-        when(statsService.getSilverMembersCount()).thenReturn(50L);
-
-        mockMvc.perform(get("/api/stats/SILVER-subscriptions/count"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("50"));
-    }
-
-    @Test
-    void testGetBronzeMembersCount() throws Exception {
-        when(statsService.getBronzeMembersCount()).thenReturn(50L);
-
-        mockMvc.perform(get("/api/stats/BRONZE-subscriptions/count"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("50"));
-    }
-
-    @Test
-    void testGetMaleMembersCount() throws Exception {
-        when(statsService.getMaleMembersCount()).thenReturn(50L);
-
-        mockMvc.perform(get("/api/stats/male-members/count"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("50"));
-    }
-
-    @Test
-    void testGetFemaleMembersCount() throws Exception {
-        when(statsService.getFemaleMembersCount()).thenReturn(50L);
-
-        mockMvc.perform(get("/api/stats/female-members/count"))
+        mockMvc.perform(get("/api/stats"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("50"));
     }

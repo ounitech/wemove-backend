@@ -1,6 +1,7 @@
 package com.ounitech.wemove.services;
 
 import com.ounitech.wemove.models.Gender;
+import com.ounitech.wemove.models.StatSummary;
 import com.ounitech.wemove.repositories.MemberRepository;
 import com.ounitech.wemove.repositories.MemberSubscriptionRepository;
 import org.springframework.stereotype.Service;
@@ -17,35 +18,29 @@ public class StatsService {
         this.memberSubscriptionRepository = memberSubscriptionRepository;
     }
 
-    public long getMembersCount() {
-        return memberRepository.count();
+    public StatSummary findStatSummary() {
+
+        StatSummary statSummary = new StatSummary();
+
+        long totalMembers = memberRepository.count();
+        long activeMembers = memberRepository.countActiveMembers();
+        long inactiveMembers = memberRepository.countInactiveMembers();
+        long goldMembers = memberSubscriptionRepository.countGoldMembers();
+        long silverMembers = memberSubscriptionRepository.countSilverMembers();
+        long bronzeMembers = memberSubscriptionRepository.countBronzeMembers();
+        long maleMembers = memberRepository.countByGender(Gender.Male);
+        long femaleMembers = memberRepository.countByGender(Gender.Female);
+
+        statSummary.setTotalMemberCount(totalMembers);
+        statSummary.setActiveMemberCount(activeMembers);
+        statSummary.setInactiveMemberCount(inactiveMembers);
+        statSummary.setGoldMemberCount(goldMembers);
+        statSummary.setSilverMemberCount(silverMembers);
+        statSummary.setBronzeMemberCount(bronzeMembers);
+        statSummary.setMaleMemberCount(maleMembers);
+        statSummary.setFemaleMemberCount(femaleMembers);
+
+        return statSummary;
     }
 
-    public long getActiveMembersCount() {
-        return memberRepository.countActiveMembers();
-    }
-
-    public long getInactiveMembersCount() {
-        return memberRepository.countInactiveMembers();
-    }
-
-    public long getGoldMembersCount() {
-        return memberSubscriptionRepository.countGoldMembers();
-    }
-
-    public long getSilverMembersCount() {
-        return memberSubscriptionRepository.countSilverMembers();
-    }
-
-    public long getBronzeMembersCount() {
-        return memberSubscriptionRepository.countBronzeMembers();
-    }
-
-    public long getMaleMembersCount() {
-        return memberRepository.countByGender(Gender.Male);
-    }
-
-    public long getFemaleMembersCount() {
-        return memberRepository.countByGender(Gender.Female);
-    }
 }
